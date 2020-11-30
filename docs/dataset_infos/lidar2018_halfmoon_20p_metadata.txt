@@ -1,0 +1,159 @@
+{
+  "file_size": 69684339,
+  "filename": "data/lidar/lidar2018_halfmoon.las",
+  "now": "2020-11-30T20:59:27+0100",
+  "pdal_version": "2.2.0 (git-version: Release)",
+  "reader": "readers.las",
+  "stats":
+  {
+    "bbox":
+    {
+      "native":
+      {
+        "bbox":
+        {
+          "maxx": 478182.002,
+          "maxy": 5632530.842,
+          "maxz": 302.99,
+          "minx": 477626.629,
+          "miny": 5632063.758,
+          "minz": 233.953
+        },
+        "boundary": { "type": "Polygon", "coordinates": [ [ [ 477626.629, 5632063.758, 233.953 ], [ 477626.629, 5632530.842, 233.953 ], [ 478182.002, 5632530.842, 302.99 ], [ 478182.002, 5632063.758, 302.99 ], [ 477626.629, 5632063.758, 233.953 ] ] ] }
+      }
+    },
+    "statistic":
+    [
+      {
+        "average": 477864.5213,
+        "count": 2488718,
+        "maximum": 478182.002,
+        "minimum": 477626.629,
+        "name": "X",
+        "position": 0,
+        "stddev": 125.6612768,
+        "variance": 15790.75649
+      },
+      {
+        "average": 5632277.584,
+        "count": 2488718,
+        "maximum": 5632530.842,
+        "minimum": 5632063.758,
+        "name": "Y",
+        "position": 1,
+        "stddev": 99.68591499,
+        "variance": 9937.281648
+      },
+      {
+        "average": 271.750095,
+        "count": 2488718,
+        "maximum": 302.99,
+        "minimum": 233.953,
+        "name": "Z",
+        "position": 2,
+        "stddev": 15.01422632,
+        "variance": 225.4269919
+      },
+      {
+        "average": 132.1232414,
+        "count": 2488718,
+        "maximum": 5596,
+        "minimum": 5,
+        "name": "Intensity",
+        "position": 3,
+        "stddev": 166.4232626,
+        "variance": 27696.70233
+      },
+      {
+        "average": 2.150876074,
+        "count": 2488718,
+        "maximum": 7,
+        "minimum": 1,
+        "name": "ReturnNumber",
+        "position": 4,
+        "stddev": 1.185112437,
+        "variance": 1.404491489
+      },
+      {
+        "average": 3.227150284,
+        "count": 2488718,
+        "maximum": 7,
+        "minimum": 1,
+        "name": "NumberOfReturns",
+        "position": 5,
+        "stddev": 1.291654478,
+        "variance": 1.66837129
+      },
+      {
+        "average": 0,
+        "count": 2488718,
+        "maximum": 0,
+        "minimum": 0,
+        "name": "ScanDirectionFlag",
+        "position": 6,
+        "stddev": 0,
+        "variance": 0
+      },
+      {
+        "average": 0,
+        "count": 2488718,
+        "maximum": 0,
+        "minimum": 0,
+        "name": "EdgeOfFlightLine",
+        "position": 7,
+        "stddev": 0,
+        "variance": 0
+      },
+      {
+        "average": 13.81147161,
+        "count": 2488718,
+        "maximum": 20,
+        "minimum": 2,
+        "name": "Classification",
+        "position": 8,
+        "stddev": 8.549599801,
+        "variance": 73.09565676
+      },
+      {
+        "average": -0.7138928557,
+        "count": 2488718,
+        "maximum": 22,
+        "minimum": -22,
+        "name": "ScanAngleRank",
+        "position": 9,
+        "stddev": 11.7123369,
+        "variance": 137.1788356
+      },
+      {
+        "average": 53.55030381,
+        "count": 2488718,
+        "maximum": 223,
+        "minimum": 0,
+        "name": "UserData",
+        "position": 10,
+        "stddev": 9.514622214,
+        "variance": 90.52803588
+      },
+      {
+        "average": 1324.545717,
+        "count": 2488718,
+        "maximum": 1369,
+        "minimum": 1282,
+        "name": "PointSourceId",
+        "position": 11,
+        "stddev": 24.37424145,
+        "variance": 594.1036462
+      },
+      {
+        "average": 564984.0901,
+        "count": 2488718,
+        "maximum": 567316.7872,
+        "minimum": 562654.0461,
+        "name": "GpsTime",
+        "position": 12,
+        "stddev": 1260.863226,
+        "variance": 1589776.076
+      }
+    ]
+  }
+}

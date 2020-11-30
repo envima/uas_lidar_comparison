@@ -1,0 +1,85 @@
+---
+title: "UAS Pointclouds vs. Lidar Pointclouds for structual analysis of forests"
+output: github_document
+---
+
+```{r setup, include = FALSE}
+library(lidR)
+library(raster)
+```
+
+
+
+# Introduction
+
+Lidar indices are commonly used for forest structural analysis...
+Photogrammetrically received pointclouds from UAS might be a cost-efficient alternative...
+
+UAS pointclouds do not have return values which many Lidar indices depend on
+
+
+
+
+The quality of UAS pointclouds have to be assessed in terms of comparability to Lidar pointclouds (since Lidar structural analysis is the standard in many studies)
+
+Hypothesis: Multitemporal pointclouds at different phenological stages from UAS are comparable to Lidar pointclouds for temporate deciduous forest.
+
+
+## Quick and dirty approach
+
+Comparison of single time stage UAS to Lidar (just to prove the point that a single flight does is not sufficient)
+
+
+```{r, warning=FALSE}
+lidar2018 = readLAS("../data/lidar/lidar2018_halfmoon_20p.las")
+sparsecloud = readLAS("../data/sparseclouds/2020_10_13_sparsecloud.las")
+
+
+source("../scripts/001_pointcloud_height_metrics.R")
+
+sparsecloud_z_metrics = grid_metrics(sparsecloud, func = ~metrics(Z), res = 5)
+lidar_z_metrics = grid_metrics(lidar2018, func ~metrics(Z), res = 5)
+
+
+plot(lidar_z_metrics)
+
+plot(sparsecloud_z_metrics)
+
+
+
+z_dif = lidar_z_metrics - sparsecloud_z_metrics
+plot(z_dif)
+
+
+```
+
+
+
+## Processing protocol
+
+* crop lidar data to halfmoon
+* homogenize point density to 20 points per squaremeter
+
+
+```{r, eval = FALSE, include = FALSE}
+lidar2018 = readLAS("data/lidar/lidar2018_halfmoon.las")
+lidar2018_density = lidR::grid_density(lidar2018, res = 1)
+
+hist(lidar2018_density)
+plot(lidar2018_density)
+
+lidar2018_h = decimate_points(lidar2018, algorithm = homogenize(20, res = 1))
+
+
+lidar2018_h_density = lidR::grid_density(lidar2018_h, res = 1)
+hist(lidar2018_h_density)
+plot(lidar2018_h_density)
+
+plot(lidar2018_h)
+plot(lidar2018)
+```
+
+
+
+
+
