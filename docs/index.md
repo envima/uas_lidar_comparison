@@ -4,15 +4,62 @@ UAS Pointclouds vs. Lidar Pointclouds for structual analysis of forests
 # Introduction
 
 Lidar indices are commonly used for forest structural analysis…
+Photogrammetrically received pointclouds from UAS might be a
+cost-efficient alternative… UAS pointclouds do not have return values
+which many Lidar indices depend on The quality and viability of UAS
+pointclouds have to be assessed in terms of comparability to Lidar
+pointclouds (since Lidar structural analysis is the standard in many
+studies)
 
-## Difficulty level one: Lidar indices which does not use return count
+# Epic 1: Similarities between Lidar and UAS pointclouds
 
-## Processing protocol
+Since photogrammetically received pointclouds only capture the surface
+and do not penetrate the forest canopy like Lidar pointclouds, different
+phenological stages should capture different vertical layers of the
+forest canopy. Therefore, the photogrammetrically received pointcloud
+should represent and correlate with different parts of the Lidar
+pointcloud. E.g. a flight without leafs in winter or early spring should
+correlate well with the last returns of a lidar pointcloud (or a
+leaf-off lidar campaign) and therefore should be suitable for creating
+elevation models or the detection of tree stems and branches.
 
--   crop lidar data to halfmoon
--   homogenize point density to 20 points per squaremeter
+Further, a UAS flight at times with a fully developed canopy leads to
+pointclouds where it is very unlikely to capture ground points. These
+pointclouds should be comparable to first returns of a lidar pointcloud.
+E.g. it was previously shown, that UAS pointclouds are very promising
+for the estimation of tree heights and canopy cover.
+
+**Hypothesis 1:** Photogrammetrically received pointclouds from
+different phenological stages in a deciduous forest correlate with
+different parts of a LiDAR derived pointcloud.
+
+This relationship will be shown by comparing the vertical distributions
+of both pointclouds in a regular grid. Further, the Lidar data will be
+filtered to different return counts in order to check, which part of the
+lidar data is represented.
+
+# Epic 2: Multitemporal UAS pointclouds compared to Lidar pointclouds
+
+If the positional accuracy of the individual photogrammetric pointclouds
+is high enough (previously shown in Ludwig et al 2020), it is a
+resonable assumption to combine pointclouds from different phenological
+stages in order to get a full 3D model of the forest. The positional
+accuracy can be validated with tree positions and stem axis surveyed
+with a totalstation **(How?)**.
+
+**Hypothesis 2:** Mutlitemporal photogrammetrically received pointclouds
+can substitude Lidar derived pointclouds for forest structural analysis.
+
+This relation will be shown by comparing commonly used structural
+indices like the `penetration rate` or the estimation of `biomass` from
+both pointcloud types. Further, the structural data will be validated by
+field work around at 15 plots where the vertical structure of the forest
+was assessed.
 
 ## Quick and dirty approach
+
+Comparison of single time stage UAS to Lidar (just to prove the point
+that a single flight does is not sufficient)
 
 ``` r
 lidar2018 = readLAS("../data/lidar/lidar2018_halfmoon_20p.las")
@@ -28,17 +75,22 @@ lidar_z_metrics = grid_metrics(lidar2018, func ~metrics(Z), res = 5)
 plot(lidar_z_metrics)
 ```
 
-![](index_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](index_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
 plot(sparsecloud_z_metrics)
 ```
 
-![](index_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
+![](index_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
 
 ``` r
 z_dif = lidar_z_metrics - sparsecloud_z_metrics
 plot(z_dif)
 ```
 
-![](index_files/figure-gfm/unnamed-chunk-2-3.png)<!-- -->
+![](index_files/figure-gfm/unnamed-chunk-1-3.png)<!-- -->
+
+## Processing protocol
+
+-   crop lidar data to halfmoon
+-   homogenize point density to 20 points per squaremeter
