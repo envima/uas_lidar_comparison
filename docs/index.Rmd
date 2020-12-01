@@ -5,8 +5,19 @@ bibliography: literature.bib
 ---
 
 ```{r setup, include = FALSE}
-library(lidR)
-library(raster)
+source("../scripts/000_setup.R")
+library(ggpubr)
+
+
+ggHexCor = function(df, metric){
+  ggplot(df, aes_(x = as.name(paste0("lidar_", metric)),y = as.name(paste0("sparsecloud_", metric))))+
+      geom_hex()+
+      scale_fill_gradientn(name = "Count",colors = viridis(25))+
+      geom_abline(slope = 1, intercept = 0, color = "red", lwd = 1)+
+      coord_equal()+
+      theme(panel.background = element_blank())
+}
+
 ```
 
 # Introduction
@@ -61,25 +72,52 @@ plot(z_dif)
 
 ```
 
+# September and November vs. LiDAR
+
+## Minimum point height - Indicator for ground points
+
+```{r, fig.cap="Minimum height of each 5x5m pixel; September has more leafs - Overestimation"}
+september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
+november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
+
+ggarrange(plotlist = list(
+  ggHexCor(september, "z_min"),
+  ggHexCor(november, "z_min")
+  
+),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
+
+
+```
+
+Minimum height of each 5x5m pixel; September has more leafs - Overestimation
+
+## Maximum Point height - Indicator for canopy
+
+```{r, fig.cap="Maximum height of each 5x5m pixel; November has less leafs - underestimation"}
+september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
+november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
+
+ggarrange(plotlist = list(
+  ggHexCor(september, "z_max"),
+  ggHexCor(november, "z_max")
+  
+),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
+
+
+```
+
+Maximum height of each 5x5m pixel; November has less leafs - underestimation
+
+
+
+
+
+
 ## Processing protocol
 
--   crop lidar data to halfmoon
--   homogenize point density to 20 points per squaremeter
-
-```{r, eval = FALSE, include = FALSE}
-lidar2018 = readLAS("data/lidar/lidar2018_halfmoon.las")
-lidar2018_density = lidR::grid_density(lidar2018, res = 1)
-
-hist(lidar2018_density)
-plot(lidar2018_density)
-
-lidar2018_h = decimate_points(lidar2018, algorithm = homogenize(20, res = 1))
+- crop lidar data to halfmoon
+- had to throw away the confiers because they were cut between the lidar flight and the UAS flights
+- homogenize point density of Lidar data to 20 points per squaremeter
 
 
-lidar2018_h_density = lidR::grid_density(lidar2018_h, res = 1)
-hist(lidar2018_h_density)
-plot(lidar2018_h_density)
 
-plot(lidar2018_h)
-plot(lidar2018)
-```

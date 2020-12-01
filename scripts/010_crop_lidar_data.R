@@ -1,11 +1,10 @@
 # 00 prepare raw lidar data
 
-library(lidR)
-library(sf)
-
+source("scripts/000_setup.R")
 lidar2018 = lidR::readLAS("../../data/remotesensing/lidar/mof/mof_lidar_2018.las")
 
 halfmoon= st_read("data/areas/mof_halfmoon.gpkg")
+
 lidar2018 = lasclip(lidar2018, halfmoon)
 
 lidar2018@proj4string = CRS("+init=epsg:25832")

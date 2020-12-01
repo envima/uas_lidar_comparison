@@ -1,7 +1,7 @@
 {
-  "file_size": 69684339,
-  "filename": "data/lidar/lidar2018_halfmoon.las",
-  "now": "2020-11-30T20:59:27+0100",
+  "file_size": 60917903,
+  "filename": "data/lidar/lidar2018_halfmoon_20p.las",
+  "now": "2020-12-01T15:38:41+0100",
   "pdal_version": "2.2.0 (git-version: Release)",
   "reader": "readers.las",
   "stats":
@@ -12,81 +12,81 @@
       {
         "bbox":
         {
-          "maxx": 478182.002,
-          "maxy": 5632530.842,
-          "maxz": 302.99,
-          "minx": 477626.629,
-          "miny": 5632063.758,
-          "minz": 233.953
+          "maxx": 478147.385,
+          "maxy": 5632498.641,
+          "maxz": 302.607,
+          "minx": 477636.464,
+          "miny": 5632096.105,
+          "minz": 234.624
         },
-        "boundary": { "type": "Polygon", "coordinates": [ [ [ 477626.629, 5632063.758, 233.953 ], [ 477626.629, 5632530.842, 233.953 ], [ 478182.002, 5632530.842, 302.99 ], [ 478182.002, 5632063.758, 302.99 ], [ 477626.629, 5632063.758, 233.953 ] ] ] }
+        "boundary": { "type": "Polygon", "coordinates": [ [ [ 477636.464, 5632096.105, 234.624 ], [ 477636.464, 5632498.64099999983, 234.624 ], [ 478147.385, 5632498.64099999983, 302.607 ], [ 478147.385, 5632096.105, 302.607 ], [ 477636.464, 5632096.105, 234.624 ] ] ] }
       }
     },
     "statistic":
     [
       {
-        "average": 477864.5213,
-        "count": 2488718,
-        "maximum": 478182.002,
-        "minimum": 477626.629,
+        "average": 477866.3328,
+        "count": 2175631,
+        "maximum": 478147.385,
+        "minimum": 477636.464,
         "name": "X",
         "position": 0,
-        "stddev": 125.6612768,
-        "variance": 15790.75649
+        "stddev": 125.3657168,
+        "variance": 15716.56296
       },
       {
-        "average": 5632277.584,
-        "count": 2488718,
-        "maximum": 5632530.842,
-        "minimum": 5632063.758,
+        "average": 5632280.802,
+        "count": 2175631,
+        "maximum": 5632498.641,
+        "minimum": 5632096.105,
         "name": "Y",
         "position": 1,
-        "stddev": 99.68591499,
-        "variance": 9937.281648
+        "stddev": 89.51965031,
+        "variance": 8013.767792
       },
       {
-        "average": 271.750095,
-        "count": 2488718,
-        "maximum": 302.99,
-        "minimum": 233.953,
+        "average": 273.1997813,
+        "count": 2175631,
+        "maximum": 302.607,
+        "minimum": 234.624,
         "name": "Z",
         "position": 2,
-        "stddev": 15.01422632,
-        "variance": 225.4269919
+        "stddev": 14.51256525,
+        "variance": 210.6145503
       },
       {
-        "average": 132.1232414,
-        "count": 2488718,
-        "maximum": 5596,
+        "average": 128.651741,
+        "count": 2175631,
+        "maximum": 2381,
         "minimum": 5,
         "name": "Intensity",
         "position": 3,
-        "stddev": 166.4232626,
-        "variance": 27696.70233
+        "stddev": 165.4543796,
+        "variance": 27375.15172
       },
       {
-        "average": 2.150876074,
-        "count": 2488718,
+        "average": 2.177644095,
+        "count": 2175631,
         "maximum": 7,
         "minimum": 1,
         "name": "ReturnNumber",
         "position": 4,
-        "stddev": 1.185112437,
-        "variance": 1.404491489
+        "stddev": 1.18814205,
+        "variance": 1.411681531
       },
       {
-        "average": 3.227150284,
-        "count": 2488718,
+        "average": 3.277114088,
+        "count": 2175631,
         "maximum": 7,
         "minimum": 1,
         "name": "NumberOfReturns",
         "position": 5,
-        "stddev": 1.291654478,
-        "variance": 1.66837129
+        "stddev": 1.267982662,
+        "variance": 1.607780032
       },
       {
         "average": 0,
-        "count": 2488718,
+        "count": 2175631,
         "maximum": 0,
         "minimum": 0,
         "name": "ScanDirectionFlag",
@@ -96,7 +96,7 @@
       },
       {
         "average": 0,
-        "count": 2488718,
+        "count": 2175631,
         "maximum": 0,
         "minimum": 0,
         "name": "EdgeOfFlightLine",
@@ -105,54 +105,54 @@
         "variance": 0
       },
       {
-        "average": 13.81147161,
-        "count": 2488718,
+        "average": 14.03121026,
+        "count": 2175631,
         "maximum": 20,
         "minimum": 2,
         "name": "Classification",
         "position": 8,
-        "stddev": 8.549599801,
-        "variance": 73.09565676
+        "stddev": 8.474184173,
+        "variance": 71.81179739
       },
       {
-        "average": -0.7138928557,
-        "count": 2488718,
+        "average": -0.7871146348,
+        "count": 2175631,
         "maximum": 22,
         "minimum": -22,
         "name": "ScanAngleRank",
         "position": 9,
-        "stddev": 11.7123369,
-        "variance": 137.1788356
+        "stddev": 11.72720158,
+        "variance": 137.5272569
       },
       {
-        "average": 53.55030381,
-        "count": 2488718,
-        "maximum": 223,
+        "average": 53.43955616,
+        "count": 2175631,
+        "maximum": 242,
         "minimum": 0,
         "name": "UserData",
         "position": 10,
-        "stddev": 9.514622214,
-        "variance": 90.52803588
+        "stddev": 9.404439005,
+        "variance": 88.443473
       },
       {
-        "average": 1324.545717,
-        "count": 2488718,
+        "average": 1324.436039,
+        "count": 2175631,
         "maximum": 1369,
         "minimum": 1282,
         "name": "PointSourceId",
         "position": 11,
-        "stddev": 24.37424145,
-        "variance": 594.1036462
+        "stddev": 24.40767055,
+        "variance": 595.7343819
       },
       {
-        "average": 564984.0901,
-        "count": 2488718,
-        "maximum": 567316.7872,
+        "average": 564978.148,
+        "count": 2175631,
+        "maximum": 567316.7803,
         "minimum": 562654.0461,
         "name": "GpsTime",
         "position": 12,
-        "stddev": 1260.863226,
-        "variance": 1589776.076
+        "stddev": 1262.113809,
+        "variance": 1592931.268
       }
     ]
   }

@@ -90,7 +90,49 @@ plot(z_dif)
 
 ![](index_files/figure-gfm/unnamed-chunk-1-3.png)<!-- -->
 
+# September and November vs. LiDAR
+
+## Minimum point height - Indicator for ground points
+
+``` r
+september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
+november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
+
+ggarrange(plotlist = list(
+  ggHexCor(september, "z_min"),
+  ggHexCor(november, "z_min")
+  
+),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
+```
+
+![Minimum height of each 5x5m pixel; September has more leafs -
+Overestimation](index_files/figure-gfm/unnamed-chunk-2-1.png)
+
+Minimum height of each 5x5m pixel; September has more leafs -
+Overestimation
+
+## Maximum Point height - Indicator for canopy
+
+``` r
+september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
+november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
+
+ggarrange(plotlist = list(
+  ggHexCor(september, "z_max"),
+  ggHexCor(november, "z_max")
+  
+),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
+```
+
+![Maximum height of each 5x5m pixel; November has less leafs -
+underestimation](index_files/figure-gfm/unnamed-chunk-3-1.png)
+
+Maximum height of each 5x5m pixel; November has less leafs -
+underestimation
+
 ## Processing protocol
 
 -   crop lidar data to halfmoon
--   homogenize point density to 20 points per squaremeter
+-   had to throw away the confiers because they were cut between the
+    lidar flight and the UAS flights
+-   homogenize point density of Lidar data to 20 points per squaremeter
