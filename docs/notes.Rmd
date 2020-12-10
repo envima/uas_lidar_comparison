@@ -1,0 +1,23 @@
+---
+title: "Processing Notes"
+output: github_document
+---
+
+# Pointcloud preprocessing
+
+1. UAS Denseclouds had variying absolute height values
+    - Stems from the photogrammetric process itself
+    - has to be investigated at some point
+
+2. Filtered Denseclouds by removing low confidence values
+    - confidence value corresponds to the number of depth maps the point appears in
+    - Low values - low amount of depth maps
+    - Used a threshold of 3 to filter the denseclouds
+    - [deep3d.co.uk/2020/05/10/confidence-is-everything](https://deep3d.co.uk/2020/05/10/confidence-is-everything/)
+
+3. Normalized heights with the LiDAR based DEM
+    - also for the UAS clouds
+    - Terrain should not differ
+    - it is reasonable to assume that there is a 1x1 m terrain model available
+
+

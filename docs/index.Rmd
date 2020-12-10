@@ -127,7 +127,8 @@ Maximum height of each 5x5m pixel; November has less leafs - underestimation
 # Text fragments
 
 
-The main challange for further usage of Lidar data in a forest environment is the detection of individual trees. This enables the estimation of tree related parameters such as diameter at breast height, timber volume or crown related metrics [@Leeuwen2010]. Forest structure then can be described as the sum of the structure of individual trees [e.g. their height and biomass @Ferraz2016] and the species composition (REF). This could give new insights into ecosystem functioning, since many processes and species distributions depend on functions provided by trees or their related microhabitats (REF). Further, monitoring of individual tree health and drought could be applied in forestry.\\
+The main challange for further usage of Lidar data in a forest environment is the detection of individual trees. This enables the estimation of tree related parameters such as diameter at breast height, timber volume or crown related metrics [@Leeuwen2010]. Forest structure then can be described as the sum of the structure of individual trees [e.g. their height and biomass @Ferraz2016] and the species composition (REF). This could give new insights into ecosystem functioning, since many processes and species distributions depend on functions provided by trees or their related microhabitats (REF). Further, monitoring of individual tree health and drought could be applied in forestry.
+
 
 # References
 

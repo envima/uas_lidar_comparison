@@ -16,19 +16,6 @@ ggHexCor = function(df, metric){
 
 
 
-# early: 2020-09-15
-df_early = read.csv("data/z_metrics_tables/2020_09_15_sparsecloud.csv")
-
-# late: 2020-11-06
-df_late = read.csv("data/z_metrics_tables/2020_11_06_sparsecloud.csv")
-
-
-metric = "z_max"
-
-ggHexCor(df_early, metric)
-ggHexCor(df_late, metric)
-
-
 
 
 

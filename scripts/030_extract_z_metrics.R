@@ -4,36 +4,42 @@ source("scripts/000_setup.R")
 source("scripts/001_pointcloud_height_metrics.R")
 
 
-sparse_fls = list.files("data/sparseclouds/", full.names = TRUE, pattern = ".las$")
-lidar2018 = readLAS("data/lidar/lidar2018_halfmoon_20p.las")
-lidar_z_metrics = grid_metrics(lidar2018, func = ~metrics(Z), res = 5)
-names(lidar_z_metrics) = paste0("lidar_", names(lidar_z_metrics))
+pc = readRDS("data/run/normalized_terrain_pointclouds.RDS")
 
 
-for(fl in sparse_fls){
+height_based_indices = lapply(pc, function(p){
+  z_metrics = grid_metrics(p, func = ~metrics(Z), res =1)
+  z_metrics$n_2m = grid_metrics(p, func = ~length(Z), res = 1, filter = ~Z<2)
+  z_metrics$penetrationrate = z_metrics$n_2m / z_metrics$n_points
+  projection(z_metrics) = crs("+init=epsg:25832")
+  return(z_metrics)
   
-  sparsecloud = readLAS(fl)
-  filename = word(basename(fl), start = 1, sep = "\\.")
+})
+
+# save raster
+
+for(i in seq(length(height_based_indices))){
+  writeRaster(height_based_indices[[i]], paste0("data/z_metrics_differences/", names(height_based_indices)[i], ".grd"))
+}
+
+
+
+lidar = height_based_indices[[1]]
+uas = height_based_indices[2:4]
+
+
+
+i = 1
+for(i in seq(3)){
   
+  uascloud_z_metrics = uas[[i]]
+  names(uascloud_z_metrics) = paste0("uas_", names(uascloud_z_metrics))
   
-  sparsecloud_z_metrics = grid_metrics(sparsecloud, func = ~metrics(Z), res = lidar_z_metrics[[1]])
-  diff_z_metrics = lidar_z_metrics - sparsecloud_z_metrics
-  projection(diff_z_metrics) <- crs("+init=epsg:25832")
-  names(diff_z_metrics) = gsub("lidar", "diff", names(diff_z_metrics))
-  writeRaster(diff_z_metrics, paste0("data/z_metrics_differences/", filename, ".grd"))
+  all_z_metrics = stack(lidar, uascloud_z_metrics)
+  all_z_metrics_df = as.data.frame(all_z_metrics)
   
-  # create data frames for statistical analysis
-  
-  
-  names(sparsecloud_z_metrics) = paste0("sparsecloud_", names(sparsecloud_z_metrics))
-  
-  all_z_metrics = stack(lidar_z_metrics, sparsecloud_z_metrics)
-  all_z_metrics_df = na.omit(as.data.frame(all_z_metrics))
-  
-  
-  
-  all_z_metrics_df$date = word(filename, start = 1, end = 3, sep = "_")
-  write_csv(all_z_metrics_df, paste0("data/z_metrics_tables/", filename, ".csv"))
+  all_z_metrics_df$date = names(uas)[i]
+  write_csv(all_z_metrics_df, paste0("data/z_metrics_tables/", names(uas)[i], ".csv"))
   
   
   
