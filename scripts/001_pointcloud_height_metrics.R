@@ -6,13 +6,9 @@ metrics = function(z){
       z_min = min(z),
       z_sd = sd(z),
       z_range = max(z) - min(z),
+      z_shannon = vegan::diversity(z, index = "shannon"),
       n_points = length(z)
     )
   )
 }
-
-
-p_rate = grid_metrics(pc$lidar2018, func = ~length(Z), 1, filter = ~Z<2)
-plot(p_rate)
-
 
