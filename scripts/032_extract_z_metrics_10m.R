@@ -1,3 +1,5 @@
+# 10 m indices
+
 # comparsion of each sparsecloud with lidar
 
 source("scripts/000_setup.R")
@@ -5,7 +7,7 @@ source("scripts/001_pointcloud_height_metrics.R")
 
 
 pc = readRDS("data/run/normalized_pointclouds.RDS")
-g = raster("data/areas/halfmoon_grid01.tif")
+g = raster("data/areas/halfmoon_grid10.tif")
 
 
 indices = lapply(pc, function(p){
@@ -17,7 +19,7 @@ indices = lapply(pc, function(p){
 # save raster
 
 for(i in seq(length(indices))){
-  writeRaster(indices[[i]], paste0("data/z_metrics/", names(indices)[i], ".grd"), overwrite = TRUE)
+  writeRaster(indices[[i]], paste0("data/z_metrics_10m/", names(indices)[i], ".grd"), overwrite = TRUE)
 }
 
 
@@ -29,8 +31,7 @@ for(i in seq(nlayers(indices[[1]]))){
   m = stack(lapply( indices, "[[", i))
   m = as.data.frame(m, xy = TRUE)
   m$metric = metric_name
-  saveRDS(m, paste0("data/z_metrics_tables/", metric_name, ".RDS"))
+  saveRDS(m, paste0("data/z_metrics_tables_10m/", metric_name, ".RDS"))
   
 }
-
 

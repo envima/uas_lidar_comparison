@@ -117,21 +117,23 @@ LiDAR. UAS based pointclouds might very suitable for this approach,
 since the pointcloud and the aerial image are received in the same
 workflow.
 
-### Maximum canopy height
+### Canopy height
+
+#### Maximum canopy height
 
 Highest LiDAR return in a raster cell (over 10 different studies cited
 in Bakx et al. (2019) Supplementary Material 3)
 
 *Z*<sub>*m**a**x*</sub>
 
-### Mean canopy height 95%
+#### Mean canopy height 95%
 
 Mean height of the returns in the 95 percentile (Z95). N95 is the number
 of returns in the 95 percentile
 
 $$ Z\_{mean95} = \\frac{\\Sigma(Z\_{95})}{N\_{95}} $$
 
-### Mean canopy height (CSM)
+#### Mean canopy height (CSM)
 
 Mean height of the canopy surface model (CSM) in the grid cell (first
 return of the LiDAR). For Gap correction only points above a certain
@@ -160,39 +162,42 @@ studies cited in Bakx et al. (2019) Supplementary Material 3)
 
 # Results
 
-## Lidar vs. Densecloud 2019-04-25
+## Correlation of common indices in a 1x1 m grid
+
+### Lidar vs. Densecloud 2019-04-25
 
 ![](index_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
-## Lidar vs. Densecloud 2019-12-04
+### Lidar vs. Densecloud 2019-12-04
 
 ![](index_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
-## Lidar vs. Densecloud 2020-09-15
+### Lidar vs. Densecloud 2020-09-15
 
 ![](index_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-## Lidar vs. Densecloud 2020-11-12
+### Lidar vs. Densecloud 2020-11-12
 
 ![](index_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-# Using only lidar first returns
+## Correlations of common indices in a 10x10m grid
 
-Indices used in (Carrasco et al. 2019)
+`_sd` denotes the standard deviation of the 1x1m index in the 10x10m
+pixel
 
-## Lidar Firstreturns vs. Densecloud 2019-04-25
+### Lidar vs. Densecloud 2019-04-25
 
 ![](index_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-## Lidar Firstreturns vs. Densecloud 2019-12-04
+### Lidar vs. Densecloud 2019-12-04
 
 ![](index_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-## Lidar Firstreturns vs. Densecloud 2020-09-15
+### Lidar vs. Densecloud 2020-09-15
 
 ![](index_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-## Lidar Firstreturns vs. Densecloud 2020-11-12
+### Lidar vs. Densecloud 2020-11-12
 
 ![](index_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 

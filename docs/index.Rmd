@@ -23,6 +23,10 @@ fls = list.files("../data/z_metrics_tables/", pattern = ".RDS$", full.names = TR
 df = do.call(rbind, lapply(fls, readRDS))
 
 df = df %>% filter(metric != "n_points" & metric != "z_shannon")
+
+fls = list.files("../data/z_metrics_tables_10m/", pattern = ".RDS$", full.names = TRUE)
+df2 = do.call(rbind, lapply(fls, readRDS))
+
 ```
 
 # Introduction
@@ -111,63 +115,67 @@ Standard deviation of first returns in a raster cell (over 10 different studies 
 
 # Results
 
+## Correlation of common indices in a 1x1 m grid
 
-## Lidar vs. Densecloud 2019-04-25
+### Lidar vs. Densecloud 2019-04-25
 
 ```{r, warning=FALSE, echo = FALSE}
 ggHexCor(df, d = "densecloud_2019_04_25")
 ```
 
-## Lidar vs. Densecloud 2019-12-04
+### Lidar vs. Densecloud 2019-12-04
 
 ```{r, warning=FALSE, echo = FALSE}
 ggHexCor(df, d = "densecloud_2019_12_04")
 ```
 
 
-## Lidar vs. Densecloud 2020-09-15
+### Lidar vs. Densecloud 2020-09-15
 
 ```{r, warning=FALSE, echo = FALSE}
 ggHexCor(df, d = "densecloud_2020_09_15")
 ```
 
 
-## Lidar vs. Densecloud 2020-11-12
+### Lidar vs. Densecloud 2020-11-12
 
 ```{r, warning=FALSE, echo = FALSE}
 ggHexCor(df, d = "densecloud_2020_11_12")
 ```
 
-# Using only lidar first returns
+## Correlations of common indices in a 10x10m grid
 
-Indices used in [@Carrasco2019]
+`_sd` denotes the standard deviation of the 1x1m index in the 10x10m pixel
 
-
-## Lidar Firstreturns vs. Densecloud 2019-04-25
+### Lidar vs. Densecloud 2019-04-25
 
 ```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, l = "lidarfirst_2018_01_01",d = "densecloud_2019_04_25")
+ggHexCor(df2, d = "densecloud_2019_04_25")
 ```
 
-## Lidar Firstreturns vs. Densecloud 2019-12-04
+### Lidar vs. Densecloud 2019-12-04
 
 ```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, l = "lidarfirst_2018_01_01", d = "densecloud_2019_12_04")
-```
-
-
-## Lidar Firstreturns vs. Densecloud 2020-09-15
-
-```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, l = "lidarfirst_2018_01_01",d = "densecloud_2020_09_15")
+ggHexCor(df2, d = "densecloud_2019_12_04")
 ```
 
 
-## Lidar Firstreturns vs. Densecloud 2020-11-12
+### Lidar vs. Densecloud 2020-09-15
 
 ```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, l = "lidarfirst_2018_01_01",d = "densecloud_2020_11_12")
+ggHexCor(df2, d = "densecloud_2020_09_15")
 ```
+
+
+### Lidar vs. Densecloud 2020-11-12
+
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df2, d = "densecloud_2020_11_12")
+```
+
+
+
+
 
 
 

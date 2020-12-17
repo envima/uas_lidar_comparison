@@ -6,10 +6,13 @@ source("scripts/000_setup.R")
 
 fls = list.files("data/denseclouds/", full.names = TRUE)
 pc = lapply(fls, readLAS)
-names(pc) =  word(basename(fls), 1, sep = "\\.")
+
 
 pc$`2018_01_01_lidar` = readLAS("data/lidar/lidar2018_halfmoon_sample.las")
 pc$`2018_01_01_lidar_firstreturn` = filter_poi(pc$`2018_01_01_lidar`, ReturnNumber == 1)
+
+names(pc) = c("densecloud_2019_04_25", "densecloud_2019_12_04", "densecloud_2020_09_15", "densecloud_2020_10_16", "densecloud_2020_11_12",
+              "lidar_2018_01_01", "lidarfirst_2018_01_01")
 
 
 # uniform point density
@@ -26,5 +29,5 @@ norm_pc = lapply(seq_along(pc), function(i){
 })
 
 names(norm_pc) = names(pc)
-norm_pc
+
 saveRDS(norm_pc, "data/run/normalized_pointclouds.RDS")
