@@ -99,7 +99,66 @@ a.s.l. Stem positions of 500 trees were acquired by using a differential
 GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning
 accuracy of 0.05 m.\\
 
-# Comparing height based metrics
+## Common lidar indices
+
+### Canopy cover
+
+Usually canopy cover is derived from LiDAR as follows (over 10 different
+studies cited in Bakx et al. (2019) Supplementary Material 3)
+
+$$ \\frac{N\_{p &gt; x}}{N\_{t}} \* 100 $$
+
+with percentage of returns (Np &gt; x) above x meter above ground level
+at the raster resolution. Nt is the total number of returns. Bakx et al.
+(2019) also mentiones Farrell et al. 2013 in which a tow part procedure
+is described: First cover is estimated from aerial photographs, then it
+is corrected by excluding areas with low canopy height derived from
+LiDAR. UAS based pointclouds might very suitable for this approach,
+since the pointcloud and the aerial image are received in the same
+workflow.
+
+### Maximum canopy height
+
+Highest LiDAR return in a raster cell (over 10 different studies cited
+in Bakx et al. (2019) Supplementary Material 3)
+
+*Z*<sub>*m**a**x*</sub>
+
+### Mean canopy height 95%
+
+Mean height of the returns in the 95 percentile (Z95). N95 is the number
+of returns in the 95 percentile
+
+$$ Z\_{mean95} = \\frac{\\Sigma(Z\_{95})}{N\_{95}} $$
+
+### Mean canopy height (CSM)
+
+Mean height of the canopy surface model (CSM) in the grid cell (first
+return of the LiDAR). For Gap correction only points above a certain
+threshold are used (over 10 different studies cited in Bakx et al.
+(2019) Supplementary Material 3)
+
+### Horizontal canopy variability
+
+Usually the standard deviation of the canopy cover or canopy height in
+larger raster cell (e.g. 10 m - reasonable to get to the sentinel
+scale!)
+
+### Vertical canopy variability
+
+#### Coefficient of variation of canopy height (CV)
+
+Ratio between mean canopy height (Zmean) and standard deviation (Zsd) of
+canopy height (5 different studies cited in Bakx et al. (2019))
+
+$$ CV = \\frac{Z\_{mean}}{Z\_{sd}} $$
+
+#### Standard deviation of canopy height
+
+Standard deviation of first returns in a raster cell (over 10 different
+studies cited in Bakx et al. (2019) Supplementary Material 3)
+
+# Results
 
 ## Lidar vs. Densecloud 2019-04-25
 
@@ -162,6 +221,16 @@ Svenning. 2014. “Regional-Scale Mapping of Tree Cover, Height and Main
 Phenological Tree Types Using Airborne Laser Scanning Data.” *Remote
 Sensing of Environment* 147 (May): 156–72.
 <https://doi.org/10.1016/j.rse.2014.02.013>.
+
+</div>
+
+<div id="ref-Bakx2019" class="csl-entry">
+
+Bakx, Tristan R. M., Zsófia Koma, Arie C. Seijmonsbergen, and W. Daniel
+Kissling. 2019. “Use and Categorization of Light Detection and Ranging
+Vegetation Metrics in Avian Diversity and Species Distribution
+Research.” Edited by Damaris Zurell. *Diversity and Distributions* 25
+(7): 1045–59. <https://doi.org/10.1111/ddi.12915>.
 
 </div>
 
