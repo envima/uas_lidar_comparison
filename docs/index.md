@@ -99,79 +99,43 @@ a.s.l. Stem positions of 500 trees were acquired by using a differential
 GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning
 accuracy of 0.05 m.\\
 
-# Quick and dirty approach
+# Comparing height based metrics
 
-Comparison of single time stage UAS to Lidar (just to prove the point
-that a single flight does is not sufficient)
-
-``` r
-lidar2018 = readLAS("../data/lidar/lidar2018_halfmoon_20p.las")
-sparsecloud = readLAS("../data/sparseclouds/2020_10_13_sparsecloud.las")
-
-
-source("../scripts/001_pointcloud_height_metrics.R")
-
-sparsecloud_z_metrics = grid_metrics(sparsecloud, func = ~metrics(Z), res = 5)
-lidar_z_metrics = grid_metrics(lidar2018, func ~metrics(Z), res = 5)
-
-
-plot(lidar_z_metrics)
-```
+## Lidar vs. Densecloud 2019-04-25
 
 ![](index_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
-``` r
-plot(sparsecloud_z_metrics)
-```
+## Lidar vs. Densecloud 2019-12-04
 
-![](index_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
+![](index_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
-``` r
-z_dif = lidar_z_metrics - sparsecloud_z_metrics
-plot(z_dif)
-```
+## Lidar vs. Densecloud 2020-09-15
 
-![](index_files/figure-gfm/unnamed-chunk-1-3.png)<!-- -->
+![](index_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-# September and November vs. LiDAR
+## Lidar vs. Densecloud 2020-11-12
 
-## Minimum point height - Indicator for ground points
+![](index_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-``` r
-september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
-november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
+# Using only lidar first returns
 
-ggarrange(plotlist = list(
-  ggHexCor(september, "z_min"),
-  ggHexCor(november, "z_min")
-  
-),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
-```
+Indices used in (Carrasco et al. 2019)
 
-![Minimum height of each 5x5m pixel; September has more leafs -
-Overestimation](index_files/figure-gfm/unnamed-chunk-2-1.png)
+## Lidar Firstreturns vs. Densecloud 2019-04-25
 
-Minimum height of each 5x5m pixel; September has more leafs -
-Overestimation
+![](index_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-## Maximum Point height - Indicator for canopy
+## Lidar Firstreturns vs. Densecloud 2019-12-04
 
-``` r
-september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
-november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
+![](index_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-ggarrange(plotlist = list(
-  ggHexCor(september, "z_max"),
-  ggHexCor(november, "z_max")
-  
-),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
-```
+## Lidar Firstreturns vs. Densecloud 2020-09-15
 
-![Maximum height of each 5x5m pixel; November has less leafs -
-underestimation](index_files/figure-gfm/unnamed-chunk-3-1.png)
+![](index_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-Maximum height of each 5x5m pixel; November has less leafs -
-underestimation
+## Lidar Firstreturns vs. Densecloud 2020-11-12
+
+![](index_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 # Text fragments
 
@@ -185,7 +149,7 @@ species composition (REF). This could give new insights into ecosystem
 functioning, since many processes and species distributions depend on
 functions provided by trees or their related microhabitats (REF).
 Further, monitoring of individual tree health and drought could be
-applied in forestry.\\
+applied in forestry.
 
 # References
 

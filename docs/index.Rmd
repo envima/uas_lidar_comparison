@@ -9,15 +9,20 @@ source("../scripts/000_setup.R")
 library(ggpubr)
 
 
-ggHexCor = function(df, metric){
-  ggplot(df, aes_(x = as.name(paste0("lidar_", metric)),y = as.name(paste0("sparsecloud_", metric))))+
-      geom_hex()+
-      scale_fill_gradientn(name = "Count",colors = viridis(25))+
-      geom_abline(slope = 1, intercept = 0, color = "red", lwd = 1)+
-      coord_equal()+
-      theme(panel.background = element_blank())
+ggHexCor = function(df, l = "lidar_2018_01_01", d){
+  ggplot(df, aes_(x = as.name(l), y = as.name(d)))+
+    geom_hex()+
+    scale_fill_gradientn(name = "Count",colors = viridis(25))+
+    geom_abline(slope = 1, intercept = 0, color = "red", lwd = 1)+
+    facet_wrap(.~metric, scales = "free")+
+    theme_bw()
 }
 
+
+fls = list.files("../data/z_metrics_tables/", pattern = ".RDS$", full.names = TRUE)
+df = do.call(rbind, lapply(fls, readRDS))
+
+df = df %>% filter(metric != "n_points" & metric != "z_shannon")
 ```
 
 # Introduction
@@ -58,71 +63,67 @@ This relation will be shown by comparing commonly used structural indices like t
 
 The study area is a 200 x 150 m part of a mixed deciduous forest near Marburg (Germany). The area consists of a mix of oaks (\\textit{Quercus spec.}) and beeches (\\textit{Fagus sylvatica}) and represent a typical environment in a managed forest. The elevation ranges from XXXm to XXXm a.s.l. Stem positions of 500 trees were acquired by using a differential GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning accuracy of 0.05 m.\\
 
-# Quick and dirty approach
+# Comparing height based metrics
 
+## Lidar vs. Densecloud 2019-04-25
 
-Comparison of single time stage UAS to Lidar (just to prove the point that a single flight does is not sufficient)
-
-```{r, warning=FALSE}
-lidar2018 = readLAS("../data/lidar/lidar2018_halfmoon_20p.las")
-sparsecloud = readLAS("../data/sparseclouds/2020_10_13_sparsecloud.las")
-
-
-source("../scripts/001_pointcloud_height_metrics.R")
-
-sparsecloud_z_metrics = grid_metrics(sparsecloud, func = ~metrics(Z), res = 5)
-lidar_z_metrics = grid_metrics(lidar2018, func ~metrics(Z), res = 5)
-
-
-plot(lidar_z_metrics)
-
-plot(sparsecloud_z_metrics)
-
-
-
-z_dif = lidar_z_metrics - sparsecloud_z_metrics
-plot(z_dif)
-
-
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, d = "densecloud_2019_04_25")
 ```
 
-# September and November vs. LiDAR
+## Lidar vs. Densecloud 2019-12-04
 
-## Minimum point height - Indicator for ground points
-
-
-```{r, fig.cap="Minimum height of each 5x5m pixel; September has more leafs - Overestimation"}
-september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
-november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
-
-ggarrange(plotlist = list(
-  ggHexCor(september, "z_min"),
-  ggHexCor(november, "z_min")
-  
-),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
-
-
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, d = "densecloud_2019_12_04")
 ```
 
-Minimum height of each 5x5m pixel; September has more leafs - Overestimation
 
-## Maximum Point height - Indicator for canopy
+## Lidar vs. Densecloud 2020-09-15
 
-
-```{r, fig.cap="Maximum height of each 5x5m pixel; November has less leafs - underestimation"}
-september = read.csv("../data/z_metrics_tables/2020_09_15_sparsecloud.csv")
-november = read.csv("../data/z_metrics_tables/2020_11_06_sparsecloud.csv")
-
-ggarrange(plotlist = list(
-  ggHexCor(september, "z_max"),
-  ggHexCor(november, "z_max")
-  
-),nrow = 1, labels = c("2020-09-15", "2020-11-06"), legend = "bottom")
-
-
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, d = "densecloud_2020_09_15")
 ```
 
-Maximum height of each 5x5m pixel; November has less leafs - underestimation
+
+## Lidar vs. Densecloud 2020-11-12
+
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, d = "densecloud_2020_11_12")
+```
+
+# Using only lidar first returns
+
+Indices used in [@Carrasco2019]
+
+
+## Lidar Firstreturns vs. Densecloud 2019-04-25
+
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, l = "lidarfirst_2018_01_01",d = "densecloud_2019_04_25")
+```
+
+## Lidar Firstreturns vs. Densecloud 2019-12-04
+
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, l = "lidarfirst_2018_01_01", d = "densecloud_2019_12_04")
+```
+
+
+## Lidar Firstreturns vs. Densecloud 2020-09-15
+
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, l = "lidarfirst_2018_01_01",d = "densecloud_2020_09_15")
+```
+
+
+## Lidar Firstreturns vs. Densecloud 2020-11-12
+
+```{r, warning=FALSE, echo = FALSE}
+ggHexCor(df, l = "lidarfirst_2018_01_01",d = "densecloud_2020_11_12")
+```
+
+
+
 
 # Text fragments
 
