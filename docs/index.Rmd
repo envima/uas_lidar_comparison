@@ -143,6 +143,24 @@ ggHexCor(df, d = "densecloud_2020_09_15")
 ggHexCor(df, d = "densecloud_2020_11_12")
 ```
 
+
+### Summary 01m
+
+```{r, echo = FALSE}
+cors = readRDS("../data/run/correlations_01m.RDS")
+
+ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
+  geom_raster(alpha = 0.8)+
+  scale_fill_gradientn(colors = viridis(50))+
+  geom_text(mapping = aes(label = Rsq), col = "black")+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+```
+
+
+
+
 ## Correlations of common indices in a 10x10m grid
 
 `_sd` denotes the standard deviation of the 1x1m index in the 10x10m pixel
@@ -173,8 +191,19 @@ ggHexCor(df2, d = "densecloud_2020_09_15")
 ggHexCor(df2, d = "densecloud_2020_11_12")
 ```
 
+### Summary 10m
 
+```{r, echo = FALSE}
+cors = readRDS("../data/run/correlations_10m.RDS")
 
+ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
+  geom_raster(alpha = 0.8)+
+  scale_fill_gradientn(colors = viridis(50))+
+  geom_text(mapping = aes(label = Rsq), col = "black")+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+```
 
 
 
