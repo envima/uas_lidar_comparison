@@ -1,7 +1,15 @@
 # analyze z metrics
 
 # comparsion of late fall flight to early fall flight
-source("scripts/000_setup.R")
+
+
+
+
+
+
+
+
+
 
 
 fls = list.files("data/z_metrics_tables_10m/", pattern = ".RDS$", full.names = TRUE)
