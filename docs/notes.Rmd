@@ -21,3 +21,17 @@ output: github_document
     - it is reasonable to assume that there is a 1x1 m terrain model available
 
 
+# Densecloud Export from Metashape
+
+Currently there is no way in the Metashape API to conveniently export only parts of the densecloud. Here is a workaround in the Metashape interface.
+
+1. import  shape
+2. select shape
+3. select point by shape
+4. assign class "unclassified" to selected points
+5. export points: select class "unclassified"
+
+
+
+
+
