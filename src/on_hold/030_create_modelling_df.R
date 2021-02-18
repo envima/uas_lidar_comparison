@@ -18,3 +18,9 @@ fsi = fsi %>% mutate(pk = paste0(x,y)) %>% select(-c("x", "y"))
 pci_df = pci_df %>% mutate(pk = paste0(x,y)) %>% select(-c("x", "y"))
 
 df = left_join(pci_df, fsi, by = "pk")
+df = na.omit(df)
+
+
+
+
+

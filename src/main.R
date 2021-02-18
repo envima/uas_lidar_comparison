@@ -12,11 +12,11 @@ if (Sys.info()[["nodename"]] == "marvinpc") {
 if (Sys.info()[["nodename"]] == "marvinshredder"){
   root_folder = "/home/um2/casestudies/uas_lidar_comparison/"
 }
-source(paste0(root_folder, "/src/functions/000_setup.R"))
+setwd(root_folder)
+source("src/functions/000_setup.R")
 
 
 # workflow
 
-source("src/010_pci_dataframe.R")
-
-
+if(FALSE) source("src/001_import_pointcloud_indices.R")
+if(TRUE) source("src/002_create_level0_metadata.R")
