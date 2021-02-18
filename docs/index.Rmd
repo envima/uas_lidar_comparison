@@ -2,39 +2,76 @@
 title: "UAS Pointclouds vs. Lidar Pointclouds for structual analysis of forests"
 output: html_document
 bibliography: /home/marvin/literature/zotero/references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
-source("../scripts/000_setup.R")
-library(ggpubr)
+source("../src/main.R")
 
 
-ggHexCor = function(df, l = "lidar_2018_01_01", d){
-  ggplot(df, aes_(x = as.name(l), y = as.name(d)))+
-    geom_hex()+
-    scale_fill_gradientn(name = "Count",colors = viridis(25))+
-    geom_abline(slope = 1, intercept = 0, color = "red", lwd = 1)+
-    facet_wrap(.~metric, scales = "free")+
-    theme_bw()
-}
-
-
-fls = list.files("../data/z_metrics_tables/", pattern = ".RDS$", full.names = TRUE)
-df = do.call(rbind, lapply(fls, readRDS))
-
-df = df %>% filter(metric != "n_points" & metric != "z_shannon")
-
-fls = list.files("../data/z_metrics_tables_10m/", pattern = ".RDS$", full.names = TRUE)
-df2 = do.call(rbind, lapply(fls, readRDS))
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, root.dir = root_folder)
+knitr::opts_knit$set(root.dir = root_folder)
 
 ```
 
 # Introduction
 
 
+Storyline:
+
+1. Einsatzgebiete von Lidar in Forst und Naturschutz
+2. Monitoring dieser Parameter wird gemacht
+3. Datenlage bei Lidar dürftig
+4. Könnte durch UAV ergänzt werden
+5. Dafür muss Vergleichbarkeit getestet werden
+
 The use of Light detection and ranging (LiDAR) pointclouds are well established in forestry, agriculture and forest research. Spatially extensive estimations of vegetation related structural parameters are mostly realised with the calculation of LiDAR indices in a regular grid. Common applications on a forest stand scale are the retrieval of canopy cover and heights [@Lee2018; @Alexander2014], stand density [@Lee2018a] and the estimation of leaf area [@Kamoske2019]. The structural information and its heterogeneity in a landscape serve as indicators for biodiversity [@Hilmers2018] or species occurrence [@Carrasco2019; @Melin2016; @Froidevaux2016]. Most of these Lidar indices are strongly correlated [@Shi2018].
 
+Seasonality of Lidar: max and mean height independent of seasonality, sd and skew of height more dependent on phenology
+
+Comparison of Lidar and UAS based pointclouds for individual tree height (Ganz 2019) revealed very good compariability. Quality of UAS based studies is highly depended on the accuracy of data acuisition and ulitmately proper georeferencing. Dealed with that in Ludwig 2020! 
+
+-> high density pointcloud leads to better results -> lower flight altitudes
+
+
+When comparing ALS and UAS, using a ALS derived DTM is common in order to normalize the Pointclouds (e.g. Ullag 2019)
+
+Comparisons revealed good potential of UAS pointclouds as a substitude for lidar when estimating common forest attributes (e.g. Ullah 2019, Cao 2019) and to a lesser extent biomass estimations in the tropics (Ota 2015)
+
+
+
+Lidar change detection in trees (Duncanson 2018)
+
+EBV framework with 3D information: height, cover and structural complexity
+Heterogenous data sources: requires the comparability of Lidar and photogrammetrically recieved pointclouds (Valbuena 2020)
+
+
+
+
+
+
 Despite their relevance in forest applications, Lidar data has some major drawbacks, mainly in their cost and accessibility. Lidar sensors and data acquisition are expensive and often distributed commercially. Data provided by governmental institutions are for the most part still irregularly available and not publicly distributed. Further, the temporal resolution of the data is low (by law every 3 years in Germany) making them not suitable for monitoring or applications which require different seasonal conditions. With the recent development of unmanned aerial systems (UAS) and photogrammetric techniques like structure from motion (SfM), an alternative to Lidar pointclouds are available. Quick data access in moderately large areas makes UAS data promising for the monitoring of agricultural or natural systems [@Manfreda2018]. Depending on flight conditions, these pointclouds could be acquired on a near daily basis. Especially in forest environments, research can benefit from vegetation structural information retrieved from UAS data.
+
+Multitemporal UAS can benefit monitoring, e.g. tree growth rates (Guerra-Hernández 2017) or crops (Moeckel2018) 
+
+Multitemporal UAS orthoimages can enhance classification of vegetation types slightly (van Irsel 2018), makes use of plant phenology, most imprtant were july and september because there, green vegetation were at the maximum
+
+Tree height works good in UAS (Fawcett 2019)
+
+Monitoring of Canopy height of crops with multitemporal UAS based CHMs, DEM was build manually with known ground point interpolation (Grüner 2019)
+
+also comparing well to TLS based pointclouds when evaluating plant height in agriculture (Malambo 2018)
+
+Understory trees are a big problem and are not detected in individual tree segmentations (< 35% Goldberg 2018) hence we dont do it here 
+
+However, if trees are detected, the height measurement is well established and consistent across multiple flight dates (e.g. Krause 2019) 
+
+DEM clearly is the week point of photogrammetry (Ota 2015)
+
+Biomass of single trees (in a park) much better under leaf off conditions (Ye 2019)
+
+
 
 UAS pointclouds do not have return values which many Lidar indices depend on. Every point is a first return so we cannot get below a developed canopy. These return values however are crucial for LiDAR point classification (e.g. differentiate between ground and non ground point).
 
@@ -117,36 +154,55 @@ Standard deviation of first returns in a raster cell (over 10 different studies 
 
 ## Correlation of common indices in a 1x1 m grid
 
-### Lidar vs. Densecloud 2019-04-25
+### Lidar vs. Densecloud 2020-04-28
 
-```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, d = "densecloud_2019_04_25")
+```{r echo=FALSE, warning=FALSE}
+x = stack("data/imports/pointcloud_indices/2018_01_01_lidar/2018_01_01_lidar_01m.grd")
+y = stack("data/imports/pointcloud_indices/2020_04_18_densecloud/2020_04_18_densecloud_01m.grd")
+pci_plot(x, y)
 ```
 
-### Lidar vs. Densecloud 2019-12-04
+### Lidar vs. Densecloud 2020-04-22
 
 ```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, d = "densecloud_2019_12_04")
+y = stack("data/imports/pointcloud_indices/2020_04_22_densecloud/2020_04_22_densecloud_01m.grd")
+
+pci_plot(x, y)
+
 ```
 
 
 ### Lidar vs. Densecloud 2020-09-15
 
 ```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, d = "densecloud_2020_09_15")
+y = stack("data/imports/pointcloud_indices/2020_09_15_densecloud/2020_09_15_densecloud_01m.grd")
+pci_plot(x,y)
 ```
 
 
 ### Lidar vs. Densecloud 2020-11-12
 
 ```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df, d = "densecloud_2020_11_12")
+y = stack("data/imports/pointcloud_indices/2020_11_12_densecloud/2020_11_12_densecloud_01m.grd")
+pci_plot(x,y)
 ```
+
+### Lidar vs. Densecloud 2020-12-10
+
+```{r}
+y = stack("data/imports/pointcloud_indices/2020_12_10_densecloud/2020_12_10_densecloud_01m.grd")
+pci_plot(x,y)
+
+```
+
+
+
+
 
 
 ### Summary 01m
 
-```{r, echo = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 cors = readRDS("../data/run/correlations_01m.RDS")
 
 ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
@@ -161,39 +217,44 @@ ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
 
 
 
-## Correlations of common indices in a 10x10m grid
+## Horizontal Heterogenity 10x10m
 
-`_sd` denotes the standard deviation of the 1x1m index in the 10x10m pixel
 
-### Lidar vs. Densecloud 2019-04-25
+### Lidar vs. Densecloud 2020-04-18
 
-```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df2, d = "densecloud_2019_04_25")
-```
+```{r}
+x = stack("data/imports/pointcloud_indices/2018_01_01_lidar/2018_01_01_lidar_heterogenity_10m.grd")
+y = stack("data/imports/pointcloud_indices/2020_04_18_densecloud/2020_04_18_densecloud_heterogenity_10m.grd")
+pci_plot(x,y)
 
-### Lidar vs. Densecloud 2019-12-04
-
-```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df2, d = "densecloud_2019_12_04")
 ```
 
 
 ### Lidar vs. Densecloud 2020-09-15
 
-```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df2, d = "densecloud_2020_09_15")
+```{r}
+y = stack("data/imports/pointcloud_indices/2020_09_15_densecloud/2020_09_15_densecloud_heterogenity_10m.grd")
+pci_plot(x,y)
+
+```
+
+### Lidar vs. Densecloud 2020-12-10
+
+```{r}
+y = stack("data/imports/pointcloud_indices/2020_12_10_densecloud/2020_12_10_densecloud_heterogenity_10m.grd")
+pci_plot(x,y)
+
+
+
 ```
 
 
-### Lidar vs. Densecloud 2020-11-12
 
-```{r, warning=FALSE, echo = FALSE}
-ggHexCor(df2, d = "densecloud_2020_11_12")
-```
+
 
 ### Summary 10m
 
-```{r, echo = FALSE}
+```{r, eval = FALSE,echo = FALSE}
 cors = readRDS("../data/run/correlations_10m.RDS")
 
 ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
@@ -205,6 +266,10 @@ ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
 
 ```
 
+# Discussion
+
+Outlook: posibility of individual tree segmentation and then relate to stand variable (Sackov 2019)
+or even tree health (Belmonte 2018)
 
 
 

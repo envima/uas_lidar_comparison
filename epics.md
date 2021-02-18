@@ -7,9 +7,9 @@
 - How does UAS compare in general to Lidar for different indices?
 - Which UAS flight time is the most suitable?
 
-- [ ] Six UAS pointclouds in total: Three from spring and three from fall
-    - [ ] Process the three spring pointclouds again with new metashape version (:alarm_clock: 10.02.2021)
-- [ ] Use mainly indices which rely on canopy surface model 
+- [x] Six UAS pointclouds in total: Three from spring and three from fall
+    - [x] Process the three spring pointclouds again with new metashape version (:alarm_clock: 10.02.2021)
+- [x] Use mainly indices which rely on canopy surface model 
     - Absolut canopy height
     - Canopy cover
     - Mean canopy height
