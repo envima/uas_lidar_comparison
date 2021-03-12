@@ -6,12 +6,15 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include = FALSE}
-source("../src/main.R")
+```{r, setup, include = FALSE}
+library(tidyverse)
+library(viridis)
+root_folder = "/home/marvin/casestudies/uas_lidar_comparison/"
 
 
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, root.dir = root_folder)
-knitr::opts_knit$set(root.dir = root_folder)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+#knitr::opts_knit$set(root.dir = root_folder)
+
 
 ```
 
@@ -105,6 +108,14 @@ This relation will be shown by comparing commonly used structural indices like t
 The study area is a 200 x 150 m part of a mixed deciduous forest near Marburg (Germany). The area consists of a mix of oaks (\\textit{Quercus spec.}) and beeches (\\textit{Fagus sylvatica}) and represent a typical environment in a managed forest. The elevation ranges from XXXm to XXXm a.s.l. Stem positions of 500 trees were acquired by using a differential GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning accuracy of 0.05 m.\\
 
 
+## Pointcloud preprocessing and combination
+
+```{r}
+knitr::include_graphics(path = "figures/pointcloud_processing.svg")
+```
+
+
+
 ## Common lidar indices
 
 ### Canopy cover
@@ -152,119 +163,131 @@ Standard deviation of first returns in a raster cell (over 10 different studies 
 
 # Results
 
-## Correlation of common indices in a 1x1 m grid
+## Common Indices for different resolutions
 
-### Lidar vs. Densecloud 2020-04-28
+```{r bakx1plots}
+bakx_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1_resolutions_plots.RDS"))
 
-```{r echo=FALSE, warning=FALSE}
-x = stack("data/imports/pointcloud_indices/2018_01_01_lidar/2018_01_01_lidar_01m.grd")
-y = stack("data/imports/pointcloud_indices/2020_04_18_densecloud/2020_04_18_densecloud_01m.grd")
-pci_plot(x, y)
-```
+bakx_plots[[1]]
 
-### Lidar vs. Densecloud 2020-04-22
+bakx_plots[[2]]
 
-```{r, warning=FALSE, echo = FALSE}
-y = stack("data/imports/pointcloud_indices/2020_04_22_densecloud/2020_04_22_densecloud_01m.grd")
+bakx_plots[[3]]
 
-pci_plot(x, y)
+bakx_plots[[4]]
+
+bakx_plots[[5]]
 
 ```
 
 
-### Lidar vs. Densecloud 2020-09-15
 
-```{r, warning=FALSE, echo = FALSE}
-y = stack("data/imports/pointcloud_indices/2020_09_15_densecloud/2020_09_15_densecloud_01m.grd")
-pci_plot(x,y)
+## Voxel mean height at different resolutions
+
+
+```{r voxelplots}
+
+voxel_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_zvoxel_resolutions_plots.RDS"))
+
+
+voxel_plots[[1]]
+voxel_plots[[2]]
+voxel_plots[[3]]
+voxel_plots[[4]]
+voxel_plots[[5]]
 ```
 
 
-### Lidar vs. Densecloud 2020-11-12
 
-```{r, warning=FALSE, echo = FALSE}
-y = stack("data/imports/pointcloud_indices/2020_11_12_densecloud/2020_11_12_densecloud_01m.grd")
-pci_plot(x,y)
-```
+## Horizontal heterogenity
 
-### Lidar vs. Densecloud 2020-12-10
 
 ```{r}
-y = stack("data/imports/pointcloud_indices/2020_12_10_densecloud/2020_12_10_densecloud_01m.grd")
-pci_plot(x,y)
+het1 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1sd_resolutions_plots.RDS"))
 
+het1[[3]]
+
+het2 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_zvoxelsd_resolutions_plots.RDS"))
+het2[[3]]
 ```
 
 
+## Date Summary
+
+all these plots use a 2m resolution for the indice calculation
+
+```{r}
+cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
+  filter(datasource != "lidar") %>% 
+  filter(metric_group == "bakx1") %>% 
+  filter(resolution == 2)
 
 
-
-
-### Summary 01m
-
-```{r, eval = FALSE, echo = FALSE}
-cors = readRDS("../data/run/correlations_01m.RDS")
-
-ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
+ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
   geom_raster(alpha = 0.8)+
   scale_fill_gradientn(colors = viridis(50))+
   geom_text(mapping = aes(label = Rsq), col = "black")+
+  ggtitle(cors$metric_group)+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
 
-```
 
 
+cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
+  filter(datasource != "lidar") %>% 
+  filter(metric_group == "bakx1_sd") %>% 
+  filter(resolution == 2)
 
 
-## Horizontal Heterogenity 10x10m
-
-
-### Lidar vs. Densecloud 2020-04-18
-
-```{r}
-x = stack("data/imports/pointcloud_indices/2018_01_01_lidar/2018_01_01_lidar_heterogenity_10m.grd")
-y = stack("data/imports/pointcloud_indices/2020_04_18_densecloud/2020_04_18_densecloud_heterogenity_10m.grd")
-pci_plot(x,y)
-
-```
-
-
-### Lidar vs. Densecloud 2020-09-15
-
-```{r}
-y = stack("data/imports/pointcloud_indices/2020_09_15_densecloud/2020_09_15_densecloud_heterogenity_10m.grd")
-pci_plot(x,y)
-
-```
-
-### Lidar vs. Densecloud 2020-12-10
-
-```{r}
-y = stack("data/imports/pointcloud_indices/2020_12_10_densecloud/2020_12_10_densecloud_heterogenity_10m.grd")
-pci_plot(x,y)
-
-
-
-```
-
-
-
-
-
-### Summary 10m
-
-```{r, eval = FALSE,echo = FALSE}
-cors = readRDS("../data/run/correlations_10m.RDS")
-
-ggplot(cors, aes(x = response, y = metric, fill = Rsq))+
+ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
   geom_raster(alpha = 0.8)+
   scale_fill_gradientn(colors = viridis(50))+
   geom_text(mapping = aes(label = Rsq), col = "black")+
+  ggtitle(cors$metric_group)+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
 
+
+
+
+cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
+  filter(datasource != "lidar") %>% 
+  filter(metric_group == "zVoxel") %>% 
+  filter(resolution == 2)
+
+
+ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
+  geom_raster(alpha = 0.8)+
+  scale_fill_gradientn(colors = viridis(50))+
+  geom_text(mapping = aes(label = Rsq), col = "black")+
+  ggtitle(cors$metric_group)+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+
+cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
+  filter(datasource != "lidar") %>% 
+  filter(metric_group == "zVoxel_sd") %>% 
+  filter(resolution == 2)
+
+
+ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
+  geom_raster(alpha = 0.8)+
+  scale_fill_gradientn(colors = viridis(50))+
+  geom_text(mapping = aes(label = Rsq), col = "black")+
+  ggtitle(cors$metric_group)+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+
+
 ```
+
+
+
+
+
+
 
 # Discussion
 
