@@ -3,7 +3,7 @@
 
 cors = readRDS("data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS") %>% 
   filter(datasource != "lidar") %>% 
-  filter(metric_group == "bakx1") %>% 
+  filter(metric_group == "zVoxel") %>% 
   filter(resolution == 2)
 
 

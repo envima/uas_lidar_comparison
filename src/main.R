@@ -30,13 +30,13 @@ source("src/011_lidar_densecloud_scatterplots.R")
 plots_bakx1 = meta %>%
   filter(metric_group == "bakx1") %>% 
   pci_plot_resolution()
-saveRDS(plots_bakx1, "data/results/lidar_densecloud_bakx1_resolutions_plots.RDS")
+saveRDS(plots_bakx1, "data/results/scatterplots/lidar_densecloud_bakx1_resolutions_plots.RDS")
 
 # voxel mean height metrics plots
 plots_zvoxel = meta %>%
   filter(metric_group == "zVoxel") %>% 
   pci_plot_resolution()
-saveRDS(plots_zvoxel, "data/results/lidar_densecloud_zvoxel_resolutions_plots.RDS")
+saveRDS(plots_zvoxel, "data/results/scatterplots/lidar_densecloud_zvoxel_resolutions_plots.RDS")
 
 # bakx1 heterogenity
 plots_bakx1_sd = meta %>%

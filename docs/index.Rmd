@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r, setup, include = FALSE}
+```{r setup, include = FALSE}
 library(tidyverse)
 library(viridis)
 root_folder = "/home/marvin/casestudies/uas_lidar_comparison/"
@@ -163,6 +163,24 @@ Standard deviation of first returns in a raster cell (over 10 different studies 
 
 # Results
 
+## Direct comparison of Lidar and DAP
+
+```{r, fig.cap="Comparison of the vertical point distribution of LiDAR and single date DAP"}
+
+p = readRDS(file.path(root_folder, "data/level0/pointcloud_height_comparison_single.RDS"))
+p
+```
+
+
+```{r, fig.cap="Comparison of the vertical point distribution of LiDAR and combined DAP in spring and fall"}
+
+p = readRDS(file.path(root_folder, "data/level0/pointcloud_height_comparison_comb.RDS"))
+p
+```
+
+
+
+
 ## Common Indices for different resolutions
 
 ```{r bakx1plots}
@@ -210,6 +228,29 @@ het1[[3]]
 het2 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_zvoxelsd_resolutions_plots.RDS"))
 het2[[3]]
 ```
+
+
+
+## Multitemporal pointclouds
+
+```{r}
+bakx_plots[[6]]
+bakx_plots[[7]]
+
+voxel_plots[[6]]
+voxel_plots[[7]]
+
+het1[[6]]
+het1[[6]]
+
+
+het2[[6]]
+het2[[7]]
+
+```
+
+
+
 
 
 ## Date Summary
