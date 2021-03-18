@@ -9,10 +9,12 @@ editor_options:
 ```{r setup, include = FALSE}
 library(tidyverse)
 library(viridis)
+library(knitr)
 root_folder = "/home/marvin/casestudies/uas_lidar_comparison/"
 
 
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(cache = TRUE, cache.path = file.path(root_folder, "docs/cache/"))
 #knitr::opts_knit$set(root.dir = root_folder)
 
 
@@ -21,44 +23,34 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 # Introduction
 
 
-Storyline:
+## Use of LiDAR in forestry and nature conservation
 
-1. Einsatzgebiete von Lidar in Forst und Naturschutz
-2. Monitoring dieser Parameter wird gemacht
-3. Datenlage bei Lidar dürftig
-4. Könnte durch UAV ergänzt werden
-5. Dafür muss Vergleichbarkeit getestet werden
 
 The use of Light detection and ranging (LiDAR) pointclouds are well established in forestry, agriculture and forest research. Spatially extensive estimations of vegetation related structural parameters are mostly realised with the calculation of LiDAR indices in a regular grid. Common applications on a forest stand scale are the retrieval of canopy cover and heights [@Lee2018; @Alexander2014], stand density [@Lee2018a] and the estimation of leaf area [@Kamoske2019]. The structural information and its heterogeneity in a landscape serve as indicators for biodiversity [@Hilmers2018] or species occurrence [@Carrasco2019; @Melin2016; @Froidevaux2016]. Most of these Lidar indices are strongly correlated [@Shi2018].
 
+Lidar change detection in trees [@Duncanson2018]
+
+Tree height from field measurements and Lidar [@Jurjevic2020]
+
+## Problems with LiDAR
+
+
+
+
+
+
+Despite their relevance in forest applications, Lidar data has some major drawbacks, mainly in their cost and accessibility. Lidar sensors and data acquisition are expensive and often distributed commercially. Data provided by governmental institutions are for the most part still irregularly available and not publicly distributed. Further, the temporal resolution of the data is low (by law every 3 years in Germany) making them not suitable for monitoring or applications which require different seasonal conditions. 
+
+
+Comparison of leaf-on leaf-off Lidar [@Davison2020] might be a problem, since we have no control with official lidar data 
+
 Seasonality of Lidar: max and mean height independent of seasonality, sd and skew of height more dependent on phenology
 
-Comparison of Lidar and UAS based pointclouds for individual tree height (Ganz 2019) revealed very good compariability. Quality of UAS based studies is highly depended on the accuracy of data acuisition and ulitmately proper georeferencing. Dealed with that in Ludwig 2020! 
-
--> high density pointcloud leads to better results -> lower flight altitudes
-
-
-When comparing ALS and UAS, using a ALS derived DTM is common in order to normalize the Pointclouds (e.g. Ullag 2019)
-
-Comparisons revealed good potential of UAS pointclouds as a substitude for lidar when estimating common forest attributes (e.g. Ullah 2019, Cao 2019) and to a lesser extent biomass estimations in the tropics (Ota 2015)
-
-
-
-Lidar change detection in trees (Duncanson 2018)
-
-EBV framework with 3D information: height, cover and structural complexity
-Heterogenous data sources: requires the comparability of Lidar and photogrammetrically recieved pointclouds (Valbuena 2020)
 
 
 
 
 
-
-Despite their relevance in forest applications, Lidar data has some major drawbacks, mainly in their cost and accessibility. Lidar sensors and data acquisition are expensive and often distributed commercially. Data provided by governmental institutions are for the most part still irregularly available and not publicly distributed. Further, the temporal resolution of the data is low (by law every 3 years in Germany) making them not suitable for monitoring or applications which require different seasonal conditions. With the recent development of unmanned aerial systems (UAS) and photogrammetric techniques like structure from motion (SfM), an alternative to Lidar pointclouds are available. Quick data access in moderately large areas makes UAS data promising for the monitoring of agricultural or natural systems [@Manfreda2018]. Depending on flight conditions, these pointclouds could be acquired on a near daily basis. Especially in forest environments, research can benefit from vegetation structural information retrieved from UAS data.
-
-Multitemporal UAS can benefit monitoring, e.g. tree growth rates (Guerra-Hernández 2017) or crops (Moeckel2018) 
-
-Multitemporal UAS orthoimages can enhance classification of vegetation types slightly (van Irsel 2018), makes use of plant phenology, most imprtant were july and september because there, green vegetation were at the maximum
 
 Tree height works good in UAS (Fawcett 2019)
 
@@ -68,49 +60,101 @@ also comparing well to TLS based pointclouds when evaluating plant height in agr
 
 Understory trees are a big problem and are not detected in individual tree segmentations (< 35% Goldberg 2018) hence we dont do it here 
 
-However, if trees are detected, the height measurement is well established and consistent across multiple flight dates (e.g. Krause 2019) 
+## Use of UAS digital aerial photogrammetry
 
-DEM clearly is the week point of photogrammetry (Ota 2015)
+With the recent development of unmanned aerial systems (UAS) and photogrammetric techniques like structure from motion (SfM), an alternative to Lidar pointclouds are available. Quick data access in moderately large areas makes UAS data promising for the monitoring of agricultural or natural systems [@Manfreda2018]. Depending on flight conditions, these pointclouds could be acquired on a near daily basis. Especially in forest environments, research can benefit from vegetation structural information retrieved from UAS data.
 
-Biomass of single trees (in a park) much better under leaf off conditions (Ye 2019)
 
+
+mix of pointclouds and images to classify individual trees [@Xu2020]
+
+
+However, if trees are detected, the height measurement is well established and consistent across multiple flight dates [e.g. @Krause2019] 
+
+
+## Previous comparisons of UAS and Lidar
+
+comparison of lidar and uav CHM [@Michez2020]
+
+
+Comparison of Lidar and UAS based pointclouds for individual tree height [@Ganz2019] revealed very good compariability. Quality of UAS based studies is highly depended on the accuracy of data acuisition and ulitmately proper georeferencing. Dealed with that in Ludwig 2020! 
+
+
+Comparisons revealed good potential of UAS pointclouds as a substitude for lidar when estimating common forest attributes [e.g. @Ullah2019; @Cao2019] and to a lesser extent biomass estimations in the tropics [@Ota2015]
+
+DEM clearly is the week point of photogrammetry [@Ota2015]
+When comparing ALS and UAS, using a ALS derived DTM is common in order to normalize the Pointclouds [e.g. @Ullah2019]
 
 
 UAS pointclouds do not have return values which many Lidar indices depend on. Every point is a first return so we cannot get below a developed canopy. These return values however are crucial for LiDAR point classification (e.g. differentiate between ground and non ground point).
 
+
+EBV framework with 3D information: height, cover and structural complexity
+Heterogenous data sources: requires the comparability of Lidar and photogrammetrically recieved pointclouds [@Valbuena2020]
+
 The quality and viability of UAS pointclouds have to be assessed in terms of comparability to Lidar pointclouds (since Lidar structural analysis is the standard in many studies)
 
-## Epic 1: Similarities between Lidar and UAS pointclouds
+
+## Previous work of multitemporal UAS
+
+Multitemporal UAV for monitoring coral reefs [@Fallati2020]
+
+Multitemporal UAS can benefit monitoring, e.g. tree growth rates [@Guerra-Hernandez2017] or crops [@Moeckel2018]
+
+Multitemporal UAS orthoimages can enhance classification of vegetation types slightly [@VanIersel2018], makes use of plant phenology, most imprtant were july and september because there, green vegetation were at the maximum
+
+Biomass of single trees (in a park) much better under leaf off conditions [@Ye2019]
 
 
-Since photogrammetically received pointclouds only capture the surface and do not penetrate the forest canopy like Lidar pointclouds, different phenological stages should capture different vertical layers of the forest canopy. Therefore, the photogrammetrically received pointcloud should represent and correlate with different parts of the Lidar pointcloud. E.g. a flight without leafs in winter or early spring should correlate well with the last returns of a lidar pointcloud (or a leaf-off lidar campaign) and therefore should be suitable for creating elevation models or the detection of tree stems and branches.
-
-Further, a UAS flight at times with a fully developed canopy leads to pointclouds where it is very unlikely to capture ground points. These pointclouds should be comparable to first returns of a lidar pointcloud. E.g. it was previously shown, that UAS pointclouds are very promising for the estimation of tree heights and canopy cover.
-
-**Hypothesis 1:** Photogrammetrically received pointclouds from different phenological stages in a deciduous forest correlate with different parts of a LiDAR derived pointcloud.
-
-This relationship will be shown by comparing the vertical distributions of both pointclouds in a regular grid. Further, the Lidar data will be filtered to different return counts in order to check, which part of the lidar data is represented.
-
-## Epic 2: Multitemporal UAS pointclouds compared to Lidar pointclouds
 
 
-If the positional accuracy of the individual photogrammetric pointclouds is high enough (previously shown in @Ludwig2020, it is a resonable assumption to combine pointclouds from different phenological stages in order to get a full 3D model of the forest. The positional accuracy can be validated with tree positions and stem axis surveyed with a totalstation **(How?)**.
+If the positional accuracy of the individual photogrammetric pointclouds is high enough (previously shown in @Ludwig2020, it is a resonable assumption to combine pointclouds from different phenological stages in order to get a full 3D model of the forest. 
 
-**Hypothesis 2:** Mutlitemporal photogrammetrically received pointclouds can substitude Lidar derived pointclouds for forest structural analysis.
+Since photogrammetically received pointclouds only capture the surface and do not penetrate the forest canopy like Lidar pointclouds, different phenological stages should capture different vertical layers of the forest canopy.
 
-This relation will be shown by comparing commonly used structural indices like the `penetration rate` or the estimation of `biomass` from both pointcloud types. Further, the structural data will be validated by field work around at 15 plots where the vertical structure of the forest was assessed.
+
+## What we do
+
+This study demonstates the usability of multitemporal pointclouds derived from digital aerial photogrammetry for forest structural analysis. Commonly applied forest structural indicators will be compared between DAP and LiDAR pointclouds for different spatial scales and different phenological stages of a deciduous forest. In addition we propose the combination of multiple DAP pointclouds as a way to improve their information value and better comparability to LiDAR data. All derived pointcloud indicators will also be related to commonly used forest structural indicators from field surveys of trees.
+
+**Hypothesis 1:** When compared to LiDAR pointclouds, the quality of structural indices from DAP pointclouds depend on the phenological stages of a deciduous forest.
+
+**Hypothesis 2:** Multitemporal DAP pointclouds are superior than monotemporal pointclouds and are suitable to complement LiDAR derived pointclouds for forest structural analysis.
+
+
 
 # Methods
 
 ## Study Area
 
 
-The study area is a 200 x 150 m part of a mixed deciduous forest near Marburg (Germany). The area consists of a mix of oaks (\\textit{Quercus spec.}) and beeches (\\textit{Fagus sylvatica}) and represent a typical environment in a managed forest. The elevation ranges from XXXm to XXXm a.s.l. Stem positions of 500 trees were acquired by using a differential GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning accuracy of 0.05 m.\\
+The study area is a 200 x 150 m part of a mixed deciduous forest near Marburg (Germany). The area consists of a mix of oaks (\textit{Quercus spec.}) and beeches (\textit{Fagus sylvatica}) and represent a typical environment in a managed forest. The elevation ranges from XXXm to XXXm a.s.l. Stem positions of 500 trees were acquired by using a differential GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning accuracy of 0.05 m.\\
+
+
+## Datasets
+
+
+```{r tabDatasetoverview}
+
+df = read.csv("tables/dataset_overview.csv", header = FALSE)
+dfheader = df[1,]
+df = df[-1,]
+
+kable(x = df, col.names = dfheader ,row.names = FALSE)
+
+```
+
+The LiDAR pointcloud (provided by the Hessian Agency for Nature Conservation, Environment and Geology - HLNUG) was in early spring 2018 under leaf off conditions. The used Sensor was a Riegl LMS-Q780 with a maximum space between points of 0.85 m and the positional accuracy from a Novatel OEM4 GNSS system was 0.3 m horizontally and 0.15 m vertically.
+
+The DAP pointclouds were acquired with a 3DR Solo Quadrocopter (3D Robotics, Inc., Berkeley CA, USA) and a GoPro Hero 7 camera (GoPro Inc., San Mateo CA, USA). 
+
+The individual images were processed using the photogrammetric software Metashape (Agisoft LLC, St. Petersburg, Russia) using the workflow described in [@Ludwig2020].
+
 
 
 ## Pointcloud preprocessing and combination
 
-```{r}
+```{r figWorkflow}
 knitr::include_graphics(path = "figures/pointcloud_processing.svg")
 ```
 
@@ -160,19 +204,18 @@ $$ CV = \frac{Z_{mean}}{Z_{sd}} $$
 Standard deviation of first returns in a raster cell (over 10 different studies cited in @Bakx2019 Supplementary Material 3)
 
 
-
 # Results
 
 ## Direct comparison of Lidar and DAP
 
-```{r, fig.cap="Comparison of the vertical point distribution of LiDAR and single date DAP"}
+```{r figVertpointsmono, fig.cap="Comparison of the vertical point distribution of LiDAR and single date DAP"}
 
 p = readRDS(file.path(root_folder, "data/level0/pointcloud_height_comparison_single.RDS"))
 p
 ```
 
 
-```{r, fig.cap="Comparison of the vertical point distribution of LiDAR and combined DAP in spring and fall"}
+```{r figVertpointsmulti, fig.cap="Comparison of the vertical point distribution of LiDAR and combined DAP in spring and fall"}
 
 p = readRDS(file.path(root_folder, "data/level0/pointcloud_height_comparison_comb.RDS"))
 p
@@ -183,7 +226,7 @@ p
 
 ## Common Indices for different resolutions
 
-```{r bakx1plots}
+```{r figBakx1plots}
 bakx_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1_resolutions_plots.RDS"))
 
 bakx_plots[[1]]
@@ -203,7 +246,7 @@ bakx_plots[[5]]
 ## Voxel mean height at different resolutions
 
 
-```{r voxelplots}
+```{r figVoxelplots}
 
 voxel_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_zvoxel_resolutions_plots.RDS"))
 
@@ -220,7 +263,7 @@ voxel_plots[[5]]
 ## Horizontal heterogenity
 
 
-```{r}
+```{r figHorizontalsd}
 het1 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1sd_resolutions_plots.RDS"))
 
 het1[[3]]
@@ -233,7 +276,7 @@ het2[[3]]
 
 ## Multitemporal pointclouds
 
-```{r}
+```{r figMultitemporal}
 bakx_plots[[6]]
 bakx_plots[[7]]
 
@@ -257,7 +300,7 @@ het2[[7]]
 
 all these plots use a 2m resolution for the indice calculation
 
-```{r}
+```{r figSummary}
 cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
   filter(datasource != "lidar") %>% 
   filter(metric_group == "bakx1") %>% 
@@ -327,21 +370,16 @@ ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
 
 
 
-
-
-
 # Discussion
 
 Outlook: posibility of individual tree segmentation and then relate to stand variable (Sackov 2019)
 or even tree health (Belmonte 2018)
 
 
-
-
 # Text fragments
 
 
-The main challange for further usage of Lidar data in a forest environment is the detection of individual trees. This enables the estimation of tree related parameters such as diameter at breast height, timber volume or crown related metrics [@Leeuwen2010]. Forest structure then can be described as the sum of the structure of individual trees [e.g. their height and biomass @Ferraz2016] and the species composition (REF). This could give new insights into ecosystem functioning, since many processes and species distributions depend on functions provided by trees or their related microhabitats (REF). Further, monitoring of individual tree health and drought could be applied in forestry.
+The main challange for further usage of Lidar data in a forest environment is the detection of individual trees. This enables the estimation of tree related parameters such as diameter at breast height, timber volume or crown related metrics [@VanLeeuwen2010]. Forest structure then can be described as the sum of the structure of individual trees [e.g. their height and biomass @Ferraz2016] and the species composition (REF). This could give new insights into ecosystem functioning, since many processes and species distributions depend on functions provided by trees or their related microhabitats (REF). Further, monitoring of individual tree health and drought could be applied in forestry.
 
 
 # References

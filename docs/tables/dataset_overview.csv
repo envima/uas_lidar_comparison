@@ -1,0 +1,10 @@
+ID, Type, Sensor, "Acquisition Date Y-M-D", Description
+1, LiDAR, Riegel LMS-Q780, 2018-04-06, leaf off
+2, DAP, GoPro Hero7, 2020-04-18, early leaf development in lower canopy
+3, DAP, GoPro Hero7, 2020-04-22, advanced leaf development in lower canopy
+4, DAP, GoPro Hero7, 2020-09-15, full canopy
+5, DAP, GoPro Hero7, 2020-10-28, full canopy / beginning of coloring
+6, DAP, GoPro Hero7, 2020-10-31, early leaf fall
+7, DAP, GoPro Hero7, 2020-11-03, advanced leaf fall
+8, DAP, GoPro Hero7, 2020-11-12, advanced leaf fall
+9, DAP, GoPro Hero7, 2020-12-10, leaf off
