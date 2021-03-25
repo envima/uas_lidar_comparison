@@ -1,6 +1,7 @@
 ---
 title: "UAS Pointclouds vs. Lidar Pointclouds for structual analysis of forests"
 output: html_document
+author: "Marvin Ludwig, Simon Seyfried, Chris Reudenbach, Thomas Nauss"
 bibliography: /home/marvin/literature/zotero/references.bib
 editor_options: 
   chunk_output_type: console

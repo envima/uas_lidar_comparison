@@ -20,7 +20,7 @@ pci_plot_resolution = function(datasets_meta){
   plots = datasets_meta %>% filter(datasource == "densecloud") %>% pull(date) %>% unique() %>% 
     map(function(d){
       
-      datasets = datasets_meta %>% filter(date %in% c("2018_01_01", d))
+      datasets = datasets_meta %>% filter(date %in% c("2018_04_06", d))
       datasets = datasets %>% mutate(data = map(filepath, function(f){
         pci_df(stack(f))
       }))
