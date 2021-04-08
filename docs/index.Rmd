@@ -15,7 +15,6 @@ root_folder = "/home/marvin/casestudies/uas_lidar_comparison/"
 
 
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
-knitr::opts_chunk$set(cache = TRUE, cache.path = file.path(root_folder, "docs/cache/"))
 #knitr::opts_knit$set(root.dir = root_folder)
 
 
@@ -24,53 +23,37 @@ knitr::opts_chunk$set(cache = TRUE, cache.path = file.path(root_folder, "docs/ca
 # Introduction
 
 
-## Use of LiDAR in forestry and nature conservation
+## Use of LiDAR in nature conservation and forestry
+
+Light detection and ranging (LiDAR) remote sensing is a well established tool in the assessment of biodiversity and nature conservation. 
+From the raw 3D pointclouds, a large variety of information can be derived helping to explain and manage critical environmental processes like shrub encroachment in grasslands [@Madsen2020], forest health assessment [@Duncanson2018] or the monitoring of wetland loss [@Montgomery2019]. One of the most common applications of LiDAR data is the description of the structure of landscapes, which then serve as drivers for species occurrence [@Carrasco2019; @Melin2016; @Froidevaux2016] or as indicators for biodiversity [@Hilmers2018; @Simonson2014].
+
+Especially forest environments are a very popular target for analysis with LiDAR data [@Beland2019]. Structural information can be derived at the level of individual tree groups [@Jeronimo2018] or individual crowns in sparse forest stands [@Silva2016]. However a more operational and well established approach is, to transfer the structural information of the 3D pointcloud into a regular 2D grid, commonly referred to as LiDAR indices. The vegetation structure then is represented e.g. as the vertical distribution or the maximum height of points in one grid cell [@Bakx2019]. In order to preserve some of the original 3D information, there are indices which work on voxel (i.e. horizontal slices of the pointcloud) and can represent different strata of the forest canopy [e.g. @Alexander2014]. The reliability of LiDAR indices is usually shown by referring them to field measurements of established forest structural indices like canopy cover and canopy height [@Lee2018; @Alexander2014], stand density [@Lee2018a] or leaf area [@Kamoske2019]. 
 
 
-The use of Light detection and ranging (LiDAR) pointclouds are well established in forestry, agriculture and forest research. Spatially extensive estimations of vegetation related structural parameters are mostly realised with the calculation of LiDAR indices in a regular grid. Common applications on a forest stand scale are the retrieval of canopy cover and heights [@Lee2018; @Alexander2014], stand density [@Lee2018a] and the estimation of leaf area [@Kamoske2019]. The structural information and its heterogeneity in a landscape serve as indicators for biodiversity [@Hilmers2018] or species occurrence [@Carrasco2019; @Melin2016; @Froidevaux2016]. Most of these Lidar indices are strongly correlated [@Shi2018].
 
-Lidar change detection in trees [@Duncanson2018]
-
-Tree height from field measurements and Lidar [@Jurjevic2020]
 
 ## Problems with LiDAR
 
+Despite their relevance in conservation and research, LiDAR data has some major drawbacks, mainly in their cost and accessibility. Professional LiDAR sensors are expensive and  data acquisition are expensive and often distributed commercially. Data provided by governmental institutions are still irregularly available and often not publicly distributed. Further, the temporal resolution of the data is low (by law every 3 years in Germany) making them not suitable for monitoring or applications which require different seasonal conditions. Researchers also have no control over the acquisition time, however the environmental condition (e.g. leaf-on or leaf-off) has a direct impact on the derived LiDAR indices and therefore the product quality [@Davison2020]. It can also be beneficial to combine leaf off and leaf on LiDAR data, e.g. for improving the model quality of tree species classifications [@Shi2018].
 
+- some words and publications about LiDAR UAS
 
-
-
-
-Despite their relevance in forest applications, Lidar data has some major drawbacks, mainly in their cost and accessibility. Lidar sensors and data acquisition are expensive and often distributed commercially. Data provided by governmental institutions are for the most part still irregularly available and not publicly distributed. Further, the temporal resolution of the data is low (by law every 3 years in Germany) making them not suitable for monitoring or applications which require different seasonal conditions. 
-
-
-Comparison of leaf-on leaf-off Lidar [@Davison2020] might be a problem, since we have no control with official lidar data 
-
-Seasonality of Lidar: max and mean height independent of seasonality, sd and skew of height more dependent on phenology
-
-
-
-
-
-
-
-Tree height works good in UAS (Fawcett 2019)
-
-Monitoring of Canopy height of crops with multitemporal UAS based CHMs, DEM was build manually with known ground point interpolation (Grüner 2019)
-
-also comparing well to TLS based pointclouds when evaluating plant height in agriculture (Malambo 2018)
-
-Understory trees are a big problem and are not detected in individual tree segmentations (< 35% Goldberg 2018) hence we dont do it here 
 
 ## Use of UAS digital aerial photogrammetry
 
-With the recent development of unmanned aerial systems (UAS) and photogrammetric techniques like structure from motion (SfM), an alternative to Lidar pointclouds are available. Quick data access in moderately large areas makes UAS data promising for the monitoring of agricultural or natural systems [@Manfreda2018]. Depending on flight conditions, these pointclouds could be acquired on a near daily basis. Especially in forest environments, research can benefit from vegetation structural information retrieved from UAS data.
-
-
+With the recent development of Unmanned Aerial Systems (UAS) and improvements of photogrammetric image processing, an alternative to LiDAR pointclouds is available. Quick data access in moderately large areas makes UAS data promising for the monitoring of agricultural or natural systems [@Manfreda2018]. Depending on flight conditions, these pointclouds could be acquired on a near daily basis. Especially in forest environments, research can benefit from vegetation structural information retrieved from UAS data. 
 
 mix of pointclouds and images to classify individual trees [@Xu2020]
-
+Tree height works good in UAS [@Fawcett2019]
 
 However, if trees are detected, the height measurement is well established and consistent across multiple flight dates [e.g. @Krause2019] 
+
+
+Monitoring of Canopy height of crops with multitemporal UAS based CHMs, DEM was build manually with known ground point interpolation [@Gruner2019]
+
+
+also comparing well to TLS based pointclouds when evaluating plant height in agriculture [@Malambo2018]
 
 
 ## Previous comparisons of UAS and Lidar
@@ -116,6 +99,9 @@ Since photogrammetically received pointclouds only capture the surface and do no
 
 ## What we do
 
+Since most LiDAR indices are are strongly correlated [@Shi2018] we picked 4 commonly used indices from [@Bakx2019]
+
+
 This study demonstates the usability of multitemporal pointclouds derived from digital aerial photogrammetry for forest structural analysis. Commonly applied forest structural indicators will be compared between DAP and LiDAR pointclouds for different spatial scales and different phenological stages of a deciduous forest. In addition we propose the combination of multiple DAP pointclouds as a way to improve their information value and better comparability to LiDAR data. All derived pointcloud indicators will also be related to commonly used forest structural indicators from field surveys of trees.
 
 **Hypothesis 1:** When compared to LiDAR pointclouds, the quality of structural indices from DAP pointclouds depend on the phenological stages of a deciduous forest.
@@ -129,10 +115,15 @@ This study demonstates the usability of multitemporal pointclouds derived from d
 ## Study Area
 
 
-The study area is a 200 x 150 m part of a mixed deciduous forest near Marburg (Germany). The area consists of a mix of oaks (\textit{Quercus spec.}) and beeches (\textit{Fagus sylvatica}) and represent a typical environment in a managed forest. The elevation ranges from XXXm to XXXm a.s.l. Stem positions of 500 trees were acquired by using a differential GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning accuracy of 0.05 m.\\
+As the study area serves a 200 x 200 m part of a mixed deciduous forest near Marburg (Germany). The area consists of oaks (\textit{Quercus spec.}) and beeches (\textit{Fagus sylvatica}) and represent a typical stand in a managed deciduous forest. Terrain elevation ranges from 250 m to 275 m a.s.l. Stem positions of 500 trees were acquired by using a differential GPS (Zenith 35 Pro, GeoMax Widnau Switzerland) with a positioning accuracy of 0.05 m.\\
 
 
 ## Datasets
+
+The LiDAR data was acquired with a Riegl LMS-Q780 sensor in early spring 2018 under leaf off conditions (Tab. \@ref(tab:tabDatasetOverview)) and provided by the Hessian Agency for Nature Conservation, Environment and Geology - HLNUG. The original pointcloud had an average point density of XX points per square meter with a georeferencing accuracy of 0.3 m horizontally and 0.15 m vertically (Novatel OEM4 GNSS). The LiDAR pointcloud was already classified into ground points and non-ground points by the data provider.  
+The DAP pointclouds were acquired with a 3DR Solo Quadrocopter (3D Robotics, Inc., Berkeley CA, USA) and a GoPro Hero 7 camera (GoPro Inc., San Mateo CA, USA) between August and December of 2020. The flight tasks were planned in a uniform altitude above ground at 110 m resulting in a ground sampling distance of 5.6 cm, a side overlap of 75% and a front overlap of 90%. Using the photogrammetric software Metashape (Agisoft LLC, St. Petersburg, Russia), sparse pointclouds were computed from the individual images of each flight. Each sparseclouds was georeferenced with 10 ground control points surveyed with the Real Time Kinematic (RTK) GNSS (Global Navigation Satellite System) device Geomax Zenith 35 (GeoMax AG, Widnau, Switzerland). A detailed explanation of the applied photogrammetic workflow is describe in [@Ludwig2020]. After the referencing, dense pointclouds were computed for each flight from non-resampled depth maps and moderate filtering. 
+
+
 
 
 ```{r tabDatasetoverview}
@@ -145,64 +136,57 @@ kable(x = df, col.names = dfheader ,row.names = FALSE)
 
 ```
 
-The LiDAR pointcloud (provided by the Hessian Agency for Nature Conservation, Environment and Geology - HLNUG) was in early spring 2018 under leaf off conditions. The used Sensor was a Riegl LMS-Q780 with a maximum space between points of 0.85 m and the positional accuracy from a Novatel OEM4 GNSS system was 0.3 m horizontally and 0.15 m vertically.
-
-The DAP pointclouds were acquired with a 3DR Solo Quadrocopter (3D Robotics, Inc., Berkeley CA, USA) and a GoPro Hero 7 camera (GoPro Inc., San Mateo CA, USA). 
-
-The individual images were processed using the photogrammetric software Metashape (Agisoft LLC, St. Petersburg, Russia) using the workflow described in [@Ludwig2020].
-
-
 
 ## Pointcloud preprocessing and combination
 
+In order to increase the comparability between the pointclouds, each one was homogenized to a density of 50 points per square meter. The classified LiDAR ground points were used to compute a digital elevation model (DEM) with a spatial resolution of 1 m using a k-nearest neighbor algorithm with inverse distance weighting. The DEM was used to normalize the height of each pointcloud which effectively results in a canopy height model (CHM). To eliminate the effects of ground points in the upcoming index calculation, points below 2 m canopy height were removed.  
+DAP pointclouds from five different phenological stages during fall 2020 were combined with the leaf-off DAP pointcloud from 2020-12-11. These five multitemporal pointclouds were preprocessed the same way as the individual pointclouds (Fig. \@ref(fig:figWorkflow)). All pointcloud based methods and computations were done in R using the lidR package [@Roussel2020].
+
+
 ```{r figWorkflow}
-knitr::include_graphics(path = "figures/pointcloud_processing.svg")
+knitr::include_graphics(path = "figures/pointcloud_processing.pdf")
 ```
 
 
 
 ## Common lidar indices
 
-### Canopy cover
-
-Usually canopy cover is derived from LiDAR as follows (over 10 different studies cited in @Bakx2019 Supplementary Material 3)
-
-$$ \frac{N_{p > x}}{N_{t}} * 100 $$
-
-with percentage of returns (Np > x) above x meter above ground level at the raster resolution. Nt is the total number of returns. @Bakx2019 also mentiones Farrell et al. 2013 in which a tow part procedure is described: First cover is estimated from aerial photographs, then it is corrected by excluding areas with low canopy height derived from LiDAR. UAS based pointclouds might very suitable for this approach, since the pointcloud and the aerial image are received in the same workflow.
-
-### Canopy height
-#### Maximum canopy height (z_max)
+In the review by @Bakx2019, over 10 different studies used this 
 
 Highest LiDAR return in a raster cell (over 10 different studies cited in @Bakx2019 Supplementary Material 3)
 
-$$ Z_{max} $$
-
-#### Mean canopy height 95% (z_mean95)
-
-Mean height of the returns in the 95 percentile (Z95). N95 is the number of returns in the 95 percentile
-
-$$ Z_{mean95} = \frac{\Sigma(Z_{95})}{N_{95}} $$
-
-#### Mean canopy height (z_mean_csm)
 
 Mean height of the canopy surface model (CSM) in the grid cell (first return of the LiDAR). For Gap correction only points above a certain threshold are used (over 10 different studies cited in @Bakx2019 Supplementary Material 3)
 
-### Horizontal canopy variability (index_name_sd)
+### Canopy height
 
-Usually the standard deviation of the canopy cover or canopy height in larger raster cell (e.g. 10 m - reasonable to get to the sentinel scale!)
+The most reliable application of pointclouds is the estimation of the canopy height. The simplest method is the maximum absolute height of the points in each raster cell $Z_{max}$. However a more realistic approach which is less prone to extreme values is the average height of all points in the 95 percentile ($Z_{mean95}$, Eq. 1).
 
-### Vertical canopy variability
+$$ Z_{mean95} = \frac{\Sigma(Z_{95})}{N_{95}} \;\;\; [1]$$
 
-#### Coefficient of variation of canopy height (CV)
+### Canopy surface models
 
-Ratio between mean canopy height (Zmean) and standard deviation (Zsd) of canopy height (5 different studies cited in @Bakx2019)
+To assess the overall vertical structure of the canopy, it is a common practice to regard only the first returns of the LiDAR pointclouds and treat them as the so called canopy surface model (CSM). DAP pointclouds do not have return values, however it is a reasonable assumption that here every point represent the canopy, since only spots visible from above the canopy are possible. Therefore the indices $Z\_mean\_csm$ and $Z\_sd\_csm$ were applied to only the first returns of the LiDAR data but all points of the DAP pointclouds.
 
-$$ CV = \frac{Z_{mean}}{Z_{sd}} $$
 
-#### Standard deviation of canopy height (z_sd_csm)
 
-Standard deviation of first returns in a raster cell (over 10 different studies cited in @Bakx2019 Supplementary Material 3)
+### Canopy heterogeneity
+
+The horizontal structure of the canopy can be assessed by computing one of the aforementioned indices in a fine resolution (e.g. 1 m) and afterwards calculate the standard deviation for a coarser resolution (e.g. 10 m). Some studies also use the ratio between the mean and the standard deviation in the coarser grid, the so called coefficient of variation [CV, Eq. 2, @Bakx2019].
+
+$$ CV = \frac{Z_{mean}}{Z_{sd}} \;\;\; [2]$$
+
+
+The vertical canopy structure is usually assessed by calculating the percentile height in each raster cell.
+
+### Normalizing indices values
+
+For better comparability between the different indices, the actual values got normalized to values between zero and one by subtracting the minimum value and divide by the range of the index (Equation 3).
+
+$$ Ind_{norm} = \frac{Ind - min(Ind)}{max(Ind) - min(Ind)} \;\;\;[3]$$
+
+
+
 
 
 # Results
@@ -225,26 +209,26 @@ p
 
 
 
-## Common Indices for different resolutions
+## Resolution and date dependency of indices
 
 ```{r figBakx1plots}
 bakx_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1_resolutions_plots.RDS"))
-
 bakx_plots[[1]]
-
-bakx_plots[[2]]
-
-bakx_plots[[3]]
-
-bakx_plots[[4]]
-
-bakx_plots[[5]]
-
 ```
 
 
 
-## Voxel mean height at different resolutions
+## Using multitemporal pointclouds
+
+
+```{r figMultitemporal}
+
+bakx_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_multi_bakx1_resolutions_plots.RDS"))
+bakx_plots[[1]]
+```
+
+
+## Quantile height at different resolutions
 
 
 ```{r figVoxelplots}
@@ -253,47 +237,26 @@ voxel_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_de
 
 
 voxel_plots[[1]]
-voxel_plots[[2]]
-voxel_plots[[3]]
-voxel_plots[[4]]
-voxel_plots[[5]]
+
+
 ```
 
 
 
-## Horizontal heterogenity
+## Horizontal heterogenity for different dates
 
 
 ```{r figHorizontalsd}
-het1 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1sd_resolutions_plots.RDS"))
-
-het1[[3]]
-
-het2 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_zvoxelsd_resolutions_plots.RDS"))
-het2[[3]]
-```
-
-
-
-## Multitemporal pointclouds
-
-```{r figMultitemporal}
-bakx_plots[[6]]
-bakx_plots[[7]]
-
-voxel_plots[[6]]
-voxel_plots[[7]]
-
-het1[[6]]
-het1[[6]]
-
-
-het2[[6]]
-het2[[7]]
+het1 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1sd_dates_plots.RDS"))
+het1
 
 ```
 
 
+```{r figHorizontalsdMulti}
+het2 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_multi_bakx1sd_dates_plots.RDS"))
+het2
+```
 
 
 
@@ -301,30 +264,35 @@ het2[[7]]
 
 all these plots use a 2m resolution for the indice calculation
 
-```{r figSummary}
+```{r figSummaryIndices, fig.cap="R2 values of linear models between indices of LiDAR pointclouds and DAP pointclouds."}
 cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
   filter(datasource != "lidar") %>% 
   filter(metric_group == "bakx1") %>% 
+  filter(metric != "z_shannon") %>% 
   filter(resolution == 2)
 
 
-ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
+ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
   geom_raster(alpha = 0.8)+
   scale_fill_gradientn(colors = viridis(50))+
   geom_text(mapping = aes(label = Rsq), col = "black")+
-  ggtitle(cors$metric_group)+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+  scale_x_discrete(name = NULL, expand = c(0,0))+
+  scale_y_discrete(name = NULL, expand = c(0,0))+
+  theme(panel.background = element_blank())+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
 
 
+```{r figSummaryHeterogenity, fig.cap = "R2 values of linear models between the 10 m standard deviation of indices of LiDAR pointclouds and DAP pointclouds."}
 
 cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
   filter(datasource != "lidar") %>% 
   filter(metric_group == "bakx1_sd") %>% 
-  filter(resolution == 2)
+  filter(resolution == 1)
 
 
-ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
+ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
   geom_raster(alpha = 0.8)+
   scale_fill_gradientn(colors = viridis(50))+
   geom_text(mapping = aes(label = Rsq), col = "black")+
@@ -332,8 +300,10 @@ ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
 
+```
 
 
+```{r figSummaryVoxelheight}
 
 cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
   filter(datasource != "lidar") %>% 
@@ -341,30 +311,14 @@ cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlation
   filter(resolution == 2)
 
 
-ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
+ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
   geom_raster(alpha = 0.8)+
   scale_fill_gradientn(colors = viridis(50))+
   geom_text(mapping = aes(label = Rsq), col = "black")+
-  ggtitle(cors$metric_group)+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
-
-
-cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
-  filter(datasource != "lidar") %>% 
-  filter(metric_group == "zVoxel_sd") %>% 
-  filter(resolution == 2)
-
-
-ggplot(cors, aes(x = date, y = metric, fill = Rsq))+
-  geom_raster(alpha = 0.8)+
-  scale_fill_gradientn(colors = viridis(50))+
-  geom_text(mapping = aes(label = Rsq), col = "black")+
-  ggtitle(cors$metric_group)+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
-
-
+  scale_x_discrete(name = NULL, expand = c(0,0))+
+  scale_y_discrete(name = NULL, expand = c(0,0))+
+  theme(panel.background = element_blank())+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
@@ -377,11 +331,26 @@ Outlook: posibility of individual tree segmentation and then relate to stand var
 or even tree health (Belmonte 2018)
 
 
-# Text fragments
+Bad correlations in lower voxel between LiDAR and UAS pointcloud might be because leaf off UAS is able to capture more branches and stems, therefore more points in lower part of the pointcloud (see Fig Distributions). UAS therefore might be better than LiDAR to capture understory vegetation (or at least the potential for understory vegetation) than leaf off LiDAR data
+The influence of understory to forest classifications is one common challenge in many studies and identified as a crucial week point
+
+
+
+
+# Text fragments, Backlog
 
 
 The main challange for further usage of Lidar data in a forest environment is the detection of individual trees. This enables the estimation of tree related parameters such as diameter at breast height, timber volume or crown related metrics [@VanLeeuwen2010]. Forest structure then can be described as the sum of the structure of individual trees [e.g. their height and biomass @Ferraz2016] and the species composition (REF). This could give new insights into ecosystem functioning, since many processes and species distributions depend on functions provided by trees or their related microhabitats (REF). Further, monitoring of individual tree health and drought could be applied in forestry.
 
+
+
+### Canopy cover
+
+Usually canopy cover is derived from LiDAR as follows (over 10 different studies cited in @Bakx2019 Supplementary Material 3)
+
+$$ \frac{N_{p > x}}{N_{t}} * 100 $$
+
+with percentage of returns (Np > x) above x meter above ground level at the raster resolution. Nt is the total number of returns. @Bakx2019 also mentiones Farrell et al. 2013 in which a tow part procedure is described: First cover is estimated from aerial photographs, then it is corrected by excluding areas with low canopy height derived from LiDAR. UAS based pointclouds might very suitable for this approach, since the pointcloud and the aerial image are received in the same workflow.
 
 # References
 
