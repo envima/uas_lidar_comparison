@@ -1,10 +1,10 @@
-#' PCI plot for one date with multiple resolutions
-#' @description Creates lidar vs. densecloud plot matrix for comparing different raster resolutions
+#' PCI comparison dataframe
+#' @description Creates lidar vs. densecloud dataframe
 #' 
 #' @param datasets_meta, the result of 002_create_level0_metadata.R
 #' 
 #'
-#' @return list of ggplots
+#' @return dataframe
 #'
 #' @author Marvin Ludwig
 #'
@@ -13,12 +13,10 @@
 #
 
 
-
-
-pci_plot_resolution = function(datasets_meta){
+load_data = function(datasets_meta){
   
-  plots = datasets_meta %>% filter(datasource == "densecloud") %>% pull(date) %>% unique() %>% 
-    map(function(d){
+  plots = datasets_meta %>% filter(datasource %in% c("densecloud", "multi")) %>% pull(date) %>% unique() %>% 
+    map_dfr(function(d){
       
       datasets = datasets_meta %>% filter(date %in% c("2018_04_06", d))
       datasets = datasets %>% mutate(data = map(filepath, function(f){
@@ -38,18 +36,14 @@ pci_plot_resolution = function(datasets_meta){
       
       df = left_join(datasets, datasets_lidar, by = c("x", "y", "metric", "resolution"), suffix = c("_densecloud", "_lidar")) %>% na.omit()
       
-      return(
-        
-        df %>% 
-          ggplot(aes(x = metric_value_lidar, y = metric_value_densecloud))+
-          geom_hex()+
-          scale_fill_gradientn(name = "Count",colors = viridis(25), trans = "log10")+
-          geom_abline(slope = 1, intercept = 0, color = "red", lwd = 1)+
-          facet_grid(metric ~ resolution)+
-          ggtitle(paste0("UAS date: ", d))+
-          theme_bw()
-        
-      )
+      
+      # format facet label
+      df$resolution = paste0(df$resolution, "m")
+      df$resolution = as.factor(df$resolution) %>% fct_inorder()
+      
+      
+      
+      return(df)
     })
   return(plots)
   
