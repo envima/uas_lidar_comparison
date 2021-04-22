@@ -2,9 +2,9 @@
 title: "UAS Pointclouds vs. Lidar Pointclouds for structual analysis of forests"
 author: "Marvin Ludwig, Simon Seyfried, Nico Friess, Chris Reudenbach, Thomas Nauss"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 bibliography: /home/marvin/literature/zotero/references.bib
 editor_options:
   chunk_output_type: console
@@ -114,15 +114,9 @@ $$ Z_{mean95} = \frac{\Sigma(Z_{95})}{N_{95}} \;\;\; [1]$$
 To assess the overall vertical structure of the canopy, it is a common practice to regard only the first returns of the LiDAR pointclouds and treat them as the so called canopy surface model (CSM). DAP pointclouds do not have return values, however it is a reasonable assumption that here every point represent the canopy, since only spots visible from above the canopy are possible. Therefore the indices $Z\_mean\_csm$ and $Z\_sd\_csm$ were applied to only the first returns of the LiDAR data but all points of the DAP pointclouds.
 
 
-
 ### Canopy heterogeneity
 
-The horizontal structure of the canopy can be assessed by computing one of the aforementioned indices in a fine resolution (e.g. 1 m) and afterwards calculate the standard deviation for a coarser resolution (e.g. 10 m). Some studies also use the ratio between the mean and the standard deviation in the coarser grid, the so called coefficient of variation [CV, Eq. 2, @Bakx2019].
-
-$$ CV = \frac{Z_{mean}}{Z_{sd}} \;\;\; [2]$$
-
-
-The vertical canopy structure is usually assessed by calculating the percentile height in each raster cell.
+To assess the horizontal heterogeneity of the canopy, we used the aforementioned indices with a 2m resolution and calculated their standard deviation in a 5 x 5 m grid, resulting in a grid with 10m resolution. The vertical canopy structure was assessed by calculating 10 percentiles of the point height in each raster cell. Further, the pointcloud was divided into voxels of 2m height. For each pixel we calculated the number of points in each voxel height.
 
 ### Normalizing indices values
 
@@ -145,53 +139,27 @@ p
 ```
 
 
-```{r figVertpointsmulti, fig.cap="Comparison of the vertical point distribution of LiDAR and combined DAP in spring and fall"}
 
-p = readRDS(file.path(root_folder, "data/level0/pointcloud_height_comparison_comb.RDS"))
-p
-```
+## Comparison of Indices at different resolutions
 
-
-
-
-## Resolution and date dependency of indices
-
-```{r figBakx1plots}
+```{r figBakx1resolution}
 bakx_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1_resolutions_plots.RDS"))
 bakx_plots[[1]]
 ```
 
 
+## Comparison of acquisiton dates
 
-## Using multitemporal pointclouds
-
-
-```{r figMultitemporal}
-
-bakx_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_multi_bakx1_resolutions_plots.RDS"))
-bakx_plots[[1]]
+```{r figBakx1dates, fig.cap="Comparison of DAP acquisition dates. The indices were calculated in a 4m resolution"}
+bakx_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1_4m_dates.RDS"))
+bakx_plots
 ```
-
-
-## Quantile height at different resolutions
-
-
-```{r figVoxelplots}
-
-voxel_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_zvoxel_resolutions_plots.RDS"))
-
-
-voxel_plots[[1]]
-
-
-```
-
 
 
 ## Horizontal heterogenity for different dates
 
 
-```{r figHorizontalsd}
+```{r figHorizontalsd, fig.cap= "Standard deviation of the indices in a 2m resolution aggeragted to a 10m resolution"}
 het1 = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_bakx1sd_dates_plots.RDS"))
 het1
 
@@ -204,8 +172,14 @@ het2
 ```
 
 
+## Vertical structure
 
-## Date Summary
+```{r figZvoxel1}
+voxel_plots = readRDS(file.path(root_folder, "data/results/scatterplots/lidar_densecloud_zvoxel_resolutions_plots.RDS"))
+voxel_plots[[1]]
+```
+
+## Using Multitemporal pointclouds
 
 all these plots use a 2m resolution for the indice calculation
 
@@ -214,7 +188,7 @@ cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlation
   filter(datasource != "lidar") %>% 
   filter(metric_group == "bakx1") %>% 
   filter(metric != "z_shannon") %>% 
-  filter(resolution == 2)
+  filter(resolution == 4)
 
 
 ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
@@ -234,7 +208,7 @@ ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
 cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
   filter(datasource != "lidar") %>% 
   filter(metric_group == "bakx1_sd") %>% 
-  filter(resolution == 1)
+  filter(resolution == 2)
 
 
 ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
@@ -267,7 +241,25 @@ ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
 
 ```
 
+```{r figSummaryVoxelpoints}
 
+cors = readRDS(file.path(root_folder, "data/results/lidar_densecloud_correlations/lidar_denseclouds_lm.RDS")) %>% 
+  filter(datasource != "lidar") %>% 
+  filter(metric_group == "nVoxel") %>% 
+  filter(metric != "n_points") %>% filter(metric != "n_points38") %>% 
+  filter(resolution == 2)
+
+
+ggplot(cors, aes(x = paste0(date, "_",datasource), y = metric, fill = Rsq))+
+  geom_raster(alpha = 0.8)+
+  scale_fill_gradientn(colors = viridis(50))+
+  geom_text(mapping = aes(label = Rsq), col = "black")+
+  scale_x_discrete(name = NULL, expand = c(0,0))+
+  scale_y_discrete(name = NULL, expand = c(0,0))+
+  theme(panel.background = element_blank())+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
 
 
 # Discussion
